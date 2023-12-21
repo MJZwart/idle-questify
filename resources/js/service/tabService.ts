@@ -1,4 +1,4 @@
-import { Component, ref } from "vue";
+import { Component, shallowRef } from "vue";
 import Combat from "../components/tabs/Combat.vue";
 
 type Tab = {
@@ -20,4 +20,4 @@ export const swapTab = (tabName: string) => {
   activeTab.value = foundTab;
 };
 
-export const activeTab = ref<Tab>(availableTabs[0]);
+export const activeTab = shallowRef<Tab>(availableTabs[0]);
