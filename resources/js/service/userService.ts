@@ -1,20 +1,21 @@
-import { ref } from "vue";
-import { User } from "../types/user";
-import { Character } from "../types/character";
+import {ref} from 'vue';
+import {User} from 'types/user';
 
 const createNewUser = (): User => {
     return {
         lastSave: new Date(),
-        character: createNewCharacter(),
-    }
-}
-
-const createNewCharacter = (): Character => {
-    return {
         level: 1,
         experience: 0,
         gold: 0,
-    }
-}
+
+        baseHealth: 100,
+        damage: 1,
+        power: 1,
+        hit: 1,
+        defence: 1,
+        dodge: 1,
+        criticalChance: 1,
+    };
+};
 
 export const user = ref<User>(createNewUser());
