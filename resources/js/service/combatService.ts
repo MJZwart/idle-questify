@@ -1,23 +1,30 @@
 import {Enemy} from 'types/enemy';
 import {calculateDamage, calculateHitChance, calculateHitPoints} from './userStatService';
-import {ref} from 'vue';
-import {user} from './userService';
+import {ref, computed} from 'vue';
+import {applyExperience, user} from './userService';
+import {CombatResult} from 'types/combat';
 
 export const selectedEnemy = ref<Enemy | null>(null);
 
 const activeCombat = ref<NodeJS.Timeout>();
-export const latestCombatResult = ref();
+const isCombatActive = computed(() => activeCombat.value !== undefined);
+export const latestCombatResult = ref<CombatResult>();
 
-export const startCombat = () => {
+export const startCombat = (): void => {
+    if (isCombatActive.value) return;
     fightEnemy();
-    activeCombat.value = setInterval(fightEnemy, 10000);
+    activeCombat.value = setInterval(fightEnemy, 3000);
 };
-export const endCombat = () => {
+export const endCombat = (): void => {
     clearInterval(activeCombat.value);
 };
 
-export const fightEnemy = () => {
-    // console.log('starting fight');
+/**
+ * Initiates combat. Each fight has a max of 250 rounds (after which it is a draw)
+ * The results are applied and saved locally for this round. These will be overwritten every fight.
+ */
+export const fightEnemy = (): void => {
+    console.log('starting fight');
     let rounds = 1;
     let misses = 0;
     let hits = 0;
@@ -37,6 +44,7 @@ export const fightEnemy = () => {
     }
     const win = userHealth > 0 && enemy.health < 0;
     latestCombatResult.value = {
+        enemyName: enemy.name,
         rounds,
         misses,
         hits,
@@ -44,24 +52,30 @@ export const fightEnemy = () => {
         userHealth,
         enemyHealth: enemy.health,
         win,
+        gold: Math.floor(enemy.level * randomBetween(1, 5)),
+        exp: enemy.level * 10,
     };
+    applyResults(latestCombatResult.value.gold, latestCombatResult.value.exp);
 };
 
-const calculateRound = (enemy: Enemy, userHealth: number) => {
-    // console.log('starting round');
+/**
+ * Calculates the damage done and damage taken, then returns the user health or miss/hit
+ */
+const calculateRound = (enemy: Enemy, userHealth: number): number | 'miss' | 'defended' => {
     const hitChance = calculateHitChance.value;
     if (Math.random() > hitChance) return 'miss';
     const damageDone = calculateDamageDone(enemy);
-    // console.log('damage done', damageDone);
     if (damageDone === 0) return 'defended';
     enemy.health -= damageDone;
     const damageTaken = calculateDamageTaken(enemy);
     userHealth -= damageTaken;
-    // console.log('damage taken', damageTaken);
     return userHealth;
 };
 
-const calculateDamageDone = (enemy: Enemy) => {
+/**
+ * Damage done is a random number * user damage * reduction
+ */
+const calculateDamageDone = (enemy: Enemy): number => {
     const reduction = calculateDamageReduction(
         user.value.hit * randomBetween(0.5, 1.5),
         enemy.defence * randomBetween(0.5, 1.5),
@@ -71,7 +85,10 @@ const calculateDamageDone = (enemy: Enemy) => {
 
     return userDamage - userDamage * reduction;
 };
-const calculateDamageTaken = (enemy: Enemy) => {
+/**
+ * Damage taken is a random number * enemy damage * reduction
+ */
+const calculateDamageTaken = (enemy: Enemy): number => {
     const reduction = calculateDamageReduction(
         enemy.attack * randomBetween(0.5, 1.5), // Enemy doesn't have hit, only attack
         user.value.defence * randomBetween(0.5, 1.5),
@@ -85,7 +102,7 @@ const calculateDamageTaken = (enemy: Enemy) => {
     The enemy's defence gets brought up against your hit number. Both get a random multiplier
     If the enemy's defence is higher than your hit, the damage gets reduced with a %
 */
-const calculateDamageReduction = (hit: number, defence: number) => {
+const calculateDamageReduction = (hit: number, defence: number): number => {
     if (defence > hit) {
         const reduction = defence - hit - 1;
         if (reduction > 1) return 1;
@@ -94,6 +111,14 @@ const calculateDamageReduction = (hit: number, defence: number) => {
     return 0;
 };
 
-const randomBetween = (min: number, max: number) => {
+/**
+ * Applies the given gold and experience to the user
+ */
+const applyResults = (gold: number, exp: number): void => {
+    user.value.gold += gold;
+    applyExperience(exp);
+};
+
+const randomBetween = (min: number, max: number): number => {
     return Math.random() * (max - min + 1) + min;
 };

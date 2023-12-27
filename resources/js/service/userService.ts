@@ -19,3 +19,7 @@ const createNewUser = (): User => {
 };
 
 export const user = ref<User>(createNewUser());
+
+export const applyExperience = (exp: number) => {
+    user.value.experience += exp;
+};

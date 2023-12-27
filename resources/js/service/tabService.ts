@@ -1,5 +1,6 @@
 import {Component, shallowRef} from 'vue';
-import Combat from '../components/tabs/combat/Combat.vue';
+import Combat from 'components/tabs/combat/Combat.vue';
+import Stats from 'components/tabs/stats/Stats.vue';
 
 type Tab = {
     name: string;
@@ -10,6 +11,10 @@ const availableTabs = [
     {
         name: 'combat',
         component: Combat,
+    },
+    {
+        name: 'stats',
+        component: Stats,
     },
 ];
 

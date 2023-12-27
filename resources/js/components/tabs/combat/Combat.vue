@@ -13,7 +13,13 @@
             <ActiveFight :chosen-enemy="selectedEnemy" />
         </div>
         <div class="flex flex-col align-center" v-if="latestCombatResult">
-            <span v-if="latestCombatResult.win" class="align-center text-success text-bold">Success</span>
+            <div v-if="latestCombatResult.win" class="align-center flex flex-col">
+                <span class="text-success text-bold">Success</span>
+                <br />
+                <span>
+                    You gained {{ latestCombatResult.exp }} experience and looted {{ latestCombatResult.gold }} gold.
+                </span>
+            </div>
             <span v-else class="text-danger text-bold">Defeat</span>
             <div>
                 <table class="w-100 results-table">
@@ -40,9 +46,8 @@
 </template>
 
 <script setup lang="ts">
-// TODO css
 import {enemies} from 'assets/lists/enemies';
-import {onUnmounted, ref} from 'vue';
+import {ref} from 'vue';
 import ActiveFight from './components/ActiveFight.vue';
 import {startCombat, selectedEnemy, endCombat, latestCombatResult} from 'service/combatService';
 
@@ -58,10 +63,6 @@ const stopFighting = () => {
     selectedEnemy.value = null;
     endCombat();
 };
-
-onUnmounted(() => {
-    endCombat();
-});
 </script>
 
 <style lang="scss" scoped>

@@ -3,7 +3,7 @@
         <table v-if="chosenEnemy && latestCombatResult" class="active-fight">
             <tr>
                 <td>You</td>
-                <td>{{ chosenEnemy.name }}</td>
+                <td>{{ latestCombatResult.enemyName }}</td>
             </tr>
             <tr>
                 <td>
