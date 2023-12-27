@@ -18,8 +18,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "service/*": ["./resources/js/service/*"],
+      "components/*": ["./resources/js/components/*"],
+      "types/*": ["./resources/types/*"],
+      "assets/*": ["./resources/assets/*"],
+    },
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["resources/**/*.ts", "resources/**/*.tsx", "resources/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
