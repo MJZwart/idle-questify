@@ -3,14 +3,20 @@ import {calculateDamage, calculateHitChance, calculateHitPoints} from './userSta
 import {ref, computed} from 'vue';
 import {applyExperience, user} from './userService';
 import {CombatResult} from 'types/combat';
-
-export const selectedEnemy = ref<Enemy | null>(null);
+import {enemies} from 'assets/lists/enemies';
 
 const activeCombat = ref<NodeJS.Timeout>();
 const isCombatActive = computed(() => activeCombat.value !== undefined);
 export const latestCombatResult = ref<CombatResult>();
 
+export const selectedEnemyId = ref<number | null>(null); // TODO Automatically pick selected from last selection
+export const selectedEnemy = computed(() => {
+    if (selectedEnemyId === null) return null;
+    return enemies.find(enemy => enemy.id === selectedEnemyId.value) ?? null;
+});
+
 export const startCombat = (): void => {
+    if (!selectedEnemy) return;
     if (isCombatActive.value) return;
     fightEnemy();
     activeCombat.value = setInterval(fightEnemy, 3000);

@@ -6,8 +6,8 @@
                     {{ enemy.name }}
                 </option>
             </select>
-            <button type="button" @click="startFighting" class="mr-2">Battle</button>
-            <button type="button" @click="stopFighting">Stop battling</button>
+            <button type="button" @click="startCombat" class="mr-2">Battle</button>
+            <button type="button" @click="endCombat">Stop battling</button>
         </div>
         <div class="w-100">
             <ActiveFight :chosen-enemy="selectedEnemy" />
@@ -47,22 +47,8 @@
 
 <script setup lang="ts">
 import {enemies} from 'assets/lists/enemies';
-import {ref} from 'vue';
 import ActiveFight from './components/ActiveFight.vue';
-import {startCombat, selectedEnemy, endCombat, latestCombatResult} from 'service/combatService';
-
-const selectedEnemyId = ref<number | null>(null); // TODO Automatically pick selected from last selection
-
-const startFighting = () => {
-    const enemy = enemies.find(enemy => enemy.id === selectedEnemyId.value);
-    selectedEnemy.value = enemy ?? null;
-    if (!enemy) return;
-    startCombat();
-};
-const stopFighting = () => {
-    selectedEnemy.value = null;
-    endCombat();
-};
+import {startCombat, selectedEnemy, endCombat, latestCombatResult, selectedEnemyId} from 'service/combatService';
 </script>
 
 <style lang="scss" scoped>
