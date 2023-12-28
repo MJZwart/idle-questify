@@ -4,9 +4,10 @@ import {ref, computed} from 'vue';
 import {applyExperience, user} from './userService';
 import {CombatResult} from 'types/combat';
 import {enemies} from 'assets/lists/enemies';
+import {randomBetween} from '../helpers/randomHelper';
 
 const activeCombat = ref<NodeJS.Timeout>();
-const isCombatActive = computed(() => activeCombat.value !== undefined);
+export const isCombatActive = computed(() => activeCombat.value !== undefined);
 export const latestCombatResult = ref<CombatResult>();
 
 export const selectedEnemyId = ref<number | null>(null); // TODO Automatically pick selected from last selection
@@ -50,7 +51,7 @@ export const fightEnemy = (): void => {
     }
     const win = userHealth > 0 && enemy.health < 0;
     latestCombatResult.value = {
-        enemyName: enemy.name,
+        enemy,
         rounds,
         misses,
         hits,
@@ -61,7 +62,7 @@ export const fightEnemy = (): void => {
         gold: Math.floor(enemy.level * randomBetween(1, 5)),
         exp: enemy.level * 10,
     };
-    applyResults(latestCombatResult.value.gold, latestCombatResult.value.exp);
+    applyResults(latestCombatResult.value);
 };
 
 /**
@@ -120,11 +121,7 @@ const calculateDamageReduction = (hit: number, defence: number): number => {
 /**
  * Applies the given gold and experience to the user
  */
-const applyResults = (gold: number, exp: number): void => {
-    user.value.gold += gold;
-    applyExperience(exp);
-};
-
-const randomBetween = (min: number, max: number): number => {
-    return Math.random() * (max - min + 1) + min;
+const applyResults = (results: CombatResult): void => {
+    user.value.gold += results.gold;
+    applyExperience(results);
 };

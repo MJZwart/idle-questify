@@ -1,16 +1,16 @@
 <template>
     <div>
-        <table v-if="chosenEnemy && latestCombatResult" class="active-fight">
+        <table v-if="isCombatActive && latestCombatResult && selectedEnemy" class="active-fight">
             <tr>
                 <td>You</td>
-                <td>{{ latestCombatResult.enemyName }}</td>
+                <td>{{ latestCombatResult.enemy.name }}</td>
             </tr>
             <tr>
                 <td>
                     <ProgressBar :max="calculateHitPoints" :value="parseHealth(latestCombatResult.userHealth)" />
                 </td>
                 <td>
-                    <ProgressBar :max="chosenEnemy.health" :value="parseHealth(latestCombatResult.enemyHealth)" />
+                    <ProgressBar :max="selectedEnemy.health" :value="parseHealth(latestCombatResult.enemyHealth)" />
                 </td>
             </tr>
         </table>
@@ -21,14 +21,19 @@
 <script setup lang="ts">
 import {calculateHitPoints} from 'service/userStatService';
 import ProgressBar from 'components/global/ProgressBar.vue';
-import {Enemy} from 'types/enemy';
-import {latestCombatResult} from 'service/combatService';
-defineProps<{chosenEnemy: Enemy | null}>();
+import {isCombatActive, latestCombatResult, selectedEnemy, selectedEnemyId} from 'service/combatService';
+import {onMounted} from 'vue';
 
 const parseHealth = (health: number) => {
     if (health < 0) return 0;
     return health;
 };
+
+onMounted(() => {
+    if (isCombatActive && !selectedEnemy) {
+        selectedEnemyId.value = latestCombatResult.value?.enemy.id;
+    }
+});
 </script>
 
 <style lang="scss" scoped>
