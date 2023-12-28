@@ -2,7 +2,7 @@ import {ref} from 'vue';
 import {User} from 'types/user';
 import {CombatResult} from 'types/combat';
 import {calculateHitPoints} from './userStatService';
-import {randomBetweenSmall, roundToDecimals} from '../helpers/randomHelper';
+import {randomBetweenSmall, roundToDecimals} from '../helpers/numberHelper';
 import {experienceCapForLevel} from '../helpers/experienceForLevel';
 
 const createNewUser = (): User => {

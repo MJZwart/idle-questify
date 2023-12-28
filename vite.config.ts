@@ -15,6 +15,7 @@ export default defineConfig(({}) => {
                 components: path.join(jsPath, 'components'),
                 service: path.join(jsPath, 'service'),
                 types: path.join(srcPath, 'types'),
+                helpers: path.join(jsPath, 'helpers'),
             },
         },
     };

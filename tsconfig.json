@@ -24,6 +24,7 @@
       "components/*": ["./resources/js/components/*"],
       "types/*": ["./resources/types/*"],
       "assets/*": ["./resources/assets/*"],
+      "helpers/*": ["./resources/js/helpers/*"],
     },
   },
   "include": ["resources/**/*.ts", "resources/**/*.tsx", "resources/**/*.vue"],

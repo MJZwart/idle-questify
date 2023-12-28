@@ -7,7 +7,7 @@
             </tr>
             <tr>
                 <td>Experience:</td>
-                <td>{{ user.experience }}</td>
+                <td>{{ user.experience }} / {{ experienceCapForLevel(user.level) }}</td>
             </tr>
             <tr>
                 <td>Gold:</td>
@@ -18,5 +18,6 @@
 </template>
 
 <script setup lang="ts">
+import {experienceCapForLevel} from 'helpers/experienceForLevel';
 import {user} from '../service/userService';
 </script>

@@ -4,7 +4,7 @@ import {ref, computed} from 'vue';
 import {applyExperience, user} from './userService';
 import {CombatResult} from 'types/combat';
 import {enemies} from 'assets/lists/enemies';
-import {randomBetween} from '../helpers/randomHelper';
+import {randomBetween} from '../helpers/numberHelper';
 
 const activeCombat = ref<NodeJS.Timeout>();
 export const isCombatActive = computed(() => activeCombat.value !== undefined);
