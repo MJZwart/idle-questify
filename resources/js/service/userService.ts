@@ -47,5 +47,3 @@ const checkAndApplyLevelUp = (): void => {
         checkAndApplyLevelUp();
     }
 };
-
-// const experienceCapForLevel = (level: number): number => {};
