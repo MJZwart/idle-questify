@@ -11,4 +11,7 @@ export type User = {
     defence: number; // Chance to deflect attacks
     dodge: number; // Chance to entirely evade attack, lowers enemy hit
     criticalChance: number; // Critical hit chance
+    criticalDamage: number; // Critical damage modifier
+
+    // Weapon expertise
 };

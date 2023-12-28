@@ -10,7 +10,7 @@
             <button type="button" @click="endCombat">Stop battling</button>
         </div>
         <div class="w-100">
-            <ActiveFight :chosen-enemy="selectedEnemy" />
+            <ActiveFight />
         </div>
         <div class="flex flex-col align-center" v-if="latestCombatResult">
             <div v-if="latestCombatResult.win" class="align-center flex flex-col">
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import {enemies} from 'assets/lists/enemies';
 import ActiveFight from './components/ActiveFight.vue';
-import {startCombat, selectedEnemy, endCombat, latestCombatResult, selectedEnemyId} from 'service/combatService';
+import {startCombat, endCombat, latestCombatResult, selectedEnemyId} from 'service/combatService';
 </script>
 
 <style lang="scss" scoped>

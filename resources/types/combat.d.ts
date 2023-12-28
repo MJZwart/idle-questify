@@ -1,5 +1,5 @@
 export type CombatResult = {
-    enemyName: string;
+    enemy: Enemy;
     rounds: number;
     misses: number;
     hits: number;
