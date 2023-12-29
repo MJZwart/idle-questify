@@ -28,16 +28,16 @@ export const user = ref<User>(createNewUser());
 export const applyExperience = (results: CombatResult): void => {
     user.value.experience += results.exp;
     checkAndApplyLevelUp();
-    const damageTakenModifier = roundToDecimals(results.userHealth / calculateHitPoints.value, 3);
-    const hitModifier = roundToDecimals(results.hits / results.rounds, 3);
-    const baseExperienceModifier = results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
-    user.value.damage += baseExperienceModifier;
-    user.value.power += baseExperienceModifier;
-    user.value.hit += baseExperienceModifier * hitModifier;
-    user.value.defence += baseExperienceModifier * damageTakenModifier;
-    user.value.dodge += baseExperienceModifier;
-    user.value.criticalChance += baseExperienceModifier;
-    user.value.criticalDamage += baseExperienceModifier / 4;
+    const damageTakenModifier = roundToDecimals(1 - results.userHealth / calculateHitPoints.value + 0.5, 3);
+    const hitModifier = roundToDecimals(1 - results.hits / results.rounds + 0.5, 3);
+    user.value.damage += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
+    user.value.power += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
+    user.value.hit += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * hitModifier;
+    user.value.defence +=
+        results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * damageTakenModifier;
+    user.value.dodge += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
+    user.value.criticalChance += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
+    user.value.criticalDamage += (results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5)) / 4;
 };
 
 const checkAndApplyLevelUp = (): void => {
