@@ -3,11 +3,12 @@
         <a @click="swapTab('combat')">Combat</a>
         <a @click="swapTab('stats')">Stats</a>
         <button class="ml-auto" @click="saveGame">Save game</button>
+        <button class="ml-2" @click="loadGame">Load latest</button>
     </div>
 </template>
 
 <script setup lang="ts">
-import {saveGame} from 'service/saveService';
+import {loadGame, saveGame} from 'service/saveService';
 import {swapTab} from 'service/tabService';
 
 //
