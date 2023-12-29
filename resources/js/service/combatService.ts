@@ -62,7 +62,7 @@ export const fightEnemy = (): void => {
         gold: Math.floor(enemy.level * randomBetween(1, 5)),
         exp: enemy.level * 10,
     };
-    applyResults(latestCombatResult.value);
+    if (win) applyResults(latestCombatResult.value);
 };
 
 /**
