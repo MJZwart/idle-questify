@@ -1,4 +1,5 @@
 import {selectedEnemyId, startCombat} from './combatService';
+import {addSuccessToast} from './toastService';
 import {user} from './userService';
 
 let autosaveInterval = null;
@@ -14,7 +15,7 @@ export const saveGame = (): void => {
         selectedEnemyId: selectedEnemyId.value,
     };
     localStorage.setItem('questify-save', JSON.stringify(objectToSave));
-    console.log('Game saved');
+    addSuccessToast('Game saved!');
 };
 
 export const loadGame = (): boolean => {
@@ -23,6 +24,7 @@ export const loadGame = (): boolean => {
     const parsedObject = JSON.parse(saveGame);
     user.value = parsedObject.user;
     selectedEnemyId.value = parsedObject.selectedEnemyId;
+    addSuccessToast('Game loaded!');
     return true;
 };
 
