@@ -27,7 +27,7 @@ export const endCombat = (): void => {
 };
 
 /** Starts combat one or multiple times */
-const initiateCombat = (nrOfFights = 1) => {
+export const initiateCombat = (nrOfFights = 1) => {
     const enemy = <Enemy>{...selectedEnemy.value};
     if (!enemy) return;
     if (nrOfFights === 1) {

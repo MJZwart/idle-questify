@@ -1,4 +1,4 @@
-import {selectedEnemyId, startCombat} from './combatService';
+import {initiateCombat, selectedEnemyId, startCombat} from './combatService';
 import {user} from './userService';
 
 export const startAutosave = (): void => {
@@ -42,7 +42,8 @@ const calculateOfflineProgress = (action: string) => {
     if (currentTimestamp - 600000 > lastSave.valueOf()) {
         if (action === 'combat') {
             const actionsPassed = Math.floor((currentTimestamp - lastSave.valueOf()) / 3000);
-            console.log(actionsPassed);
+            console.log('calculating rewards for ' + actionsPassed + ' actions');
+            initiateCombat(actionsPassed);
         }
     }
 };
