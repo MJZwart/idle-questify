@@ -8,6 +8,7 @@
             <ActiveAction class="box-border w-100" />
         </div>
     </div>
+    <ToastWrapper />
 </template>
 
 <script setup lang="ts">
@@ -16,6 +17,7 @@ import ActiveAction from './components/ActiveAction.vue';
 import Tabs from './components/Tabs.vue';
 import {onMounted} from 'vue';
 import {loadGame, startAutosave, checkGameState} from 'service/saveService';
+import ToastWrapper from './components/global/toast/ToastWrapper.vue';
 onMounted(() => {
     if (!loadGame()) {
         console.log('No save found, starting new game');

@@ -1,4 +1,5 @@
 import {initiateCombat, selectedEnemyId, startCombat} from './combatService';
+import {addSuccessToast} from './toastService';
 import {user} from './userService';
 
 export const startAutosave = (): void => {
@@ -12,7 +13,7 @@ export const saveGame = (): void => {
         selectedEnemyId: selectedEnemyId.value,
     };
     localStorage.setItem('questify-save', JSON.stringify(objectToSave));
-    console.log('Game saved');
+    addSuccessToast('Game saved!');
 };
 
 export const loadGame = (): boolean => {
@@ -26,6 +27,7 @@ export const loadGame = (): boolean => {
         lastAction = 'combat';
     }
     calculateOfflineProgress(lastAction);
+    addSuccessToast('Game loaded!');
     return true;
 };
 

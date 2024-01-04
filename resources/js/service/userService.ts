@@ -4,6 +4,7 @@ import {CombatResult} from 'types/combat';
 import {calculateHitPoints} from './userStatService';
 import {randomBetweenSmall, roundToDecimals} from '../helpers/numberHelper';
 import {experienceCapForLevel} from '../helpers/experienceForLevel';
+import {addSuccessToast} from './toastService';
 
 const createNewUser = (): User => {
     return {
@@ -45,6 +46,8 @@ const checkAndApplyLevelUp = (): void => {
     if (user.value.experience >= experienceCapForLevel(user.value.level)) {
         user.value.experience -= experienceCapForLevel(user.value.level);
         user.value.level++;
+
+        addSuccessToast('Level up!');
         checkAndApplyLevelUp();
     }
 };
