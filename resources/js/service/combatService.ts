@@ -6,7 +6,7 @@ import {CombatResult} from 'types/combat';
 import {enemies} from 'assets/lists/enemies';
 import {randomBetween} from '../helpers/numberHelper';
 
-const activeCombat = ref<NodeJS.Timeout>();
+const activeCombat = ref<NodeJS.Timeout | number>();
 export const isCombatActive = computed(() => activeCombat.value !== undefined);
 export const latestCombatResult = ref<CombatResult>();
 
@@ -19,26 +19,80 @@ export const selectedEnemy = computed(() => {
 export const startCombat = (): void => {
     if (!selectedEnemy) return;
     if (isCombatActive.value) return;
-    fightEnemy();
-    activeCombat.value = setInterval(fightEnemy, 3000);
+    initiateCombat();
+    activeCombat.value = setInterval(initiateCombat, 3000);
 };
 export const endCombat = (): void => {
     clearInterval(activeCombat.value);
+};
+
+/** Starts combat one or multiple times */
+export const initiateCombat = (nrOfFights = 1) => {
+    const enemy = <Enemy>{...selectedEnemy.value};
+    if (!enemy) return;
+    if (nrOfFights === 1) {
+        fightAndApply(enemy);
+    } else if (nrOfFights < 6) {
+        for (let i = 0; i < nrOfFights; i++) {
+            fightAndApply(enemy);
+        }
+    } else {
+        const multipleRewards: CombatResult[] = [];
+        let results: CombatResult | null = null;
+        for (let i = 0; i < 5; i++) {
+            results = fightEnemy(enemy);
+            multipleRewards.push(results);
+        }
+        const averageRewards = calculateAverageResult(multipleRewards);
+        if (results === null) return;
+        latestCombatResult.value = results;
+        applyResults(averageRewards, nrOfFights);
+    }
+};
+
+/** Calculates the average results of multiple fights and returns an average result */
+const calculateAverageResult = (results: CombatResult[]): CombatResult => {
+    const amountOfResults = results.length;
+    const winsAvg = results.reduce((acc, val) => (val.win ? acc++ : acc), 0) / amountOfResults;
+    const missesAvg = (results.reduce((acc, val) => acc + val.misses, 0) * winsAvg) / amountOfResults;
+    const hitsAvg = (results.reduce((acc, val) => acc + val.hits, 0) * winsAvg) / amountOfResults;
+    const defendsAvg = (results.reduce((acc, val) => acc + val.defends, 0) * winsAvg) / amountOfResults;
+    const healthAvg = (results.reduce((acc, val) => acc + val.userHealth, 0) * winsAvg) / amountOfResults;
+    const roundsAvg = results.reduce((acc, val) => acc + val.rounds, 0) / amountOfResults;
+    const goldAvg = results.reduce((acc, val) => acc + val.gold, 0) / amountOfResults;
+    const expAvg = results.reduce((acc, val) => acc + val.exp, 0) / amountOfResults;
+    return {
+        enemy: results[0].enemy,
+        enemyHealth: results[0].enemyHealth,
+        rounds: roundsAvg,
+        userHealth: healthAvg,
+        misses: missesAvg,
+        hits: hitsAvg,
+        defends: defendsAvg,
+        gold: goldAvg,
+        exp: expAvg,
+        win: winsAvg * 2 > amountOfResults,
+    };
+};
+
+/** Starts combat and applies the results */
+const fightAndApply = (enemy: Enemy) => {
+    const results = fightEnemy(enemy);
+    latestCombatResult.value = results;
+    if (results.win) return applyResults(results);
 };
 
 /**
  * Initiates combat. Each fight has a max of 250 rounds (after which it is a draw)
  * The results are applied and saved locally for this round. These will be overwritten every fight.
  */
-export const fightEnemy = (): void => {
+const fightEnemy = (enemy: Enemy): CombatResult => {
     console.log('starting fight');
     let rounds = 1;
     let misses = 0;
     let hits = 0;
     let defends = 0;
     let userHealth = calculateHitPoints.value;
-    const enemy = <Enemy>{...selectedEnemy.value};
-    if (!enemy) return;
     while (rounds < 250 && userHealth > 0 && enemy.health > 0) {
         const result = calculateRound(enemy, userHealth);
         if (result === 'miss') misses++;
@@ -50,7 +104,7 @@ export const fightEnemy = (): void => {
         rounds++;
     }
     const win = userHealth > 0 && enemy.health < 0;
-    latestCombatResult.value = {
+    return {
         enemy,
         rounds,
         misses,
@@ -59,10 +113,9 @@ export const fightEnemy = (): void => {
         userHealth,
         enemyHealth: enemy.health,
         win,
-        gold: Math.floor(enemy.level * randomBetween(1, 5)),
-        exp: enemy.level * 10,
+        gold: win ? Math.floor(enemy.level * randomBetween(1, 5)) : 0,
+        exp: win ? enemy.level * 10 : 0,
     };
-    if (win) applyResults(latestCombatResult.value);
 };
 
 /**
@@ -121,7 +174,7 @@ const calculateDamageReduction = (hit: number, defence: number): number => {
 /**
  * Applies the given gold and experience to the user
  */
-const applyResults = (results: CombatResult): void => {
-    user.value.gold += results.gold;
-    applyExperience(results);
+const applyResults = (results: CombatResult, amount = 1): void => {
+    user.value.gold += results.gold * amount;
+    applyExperience(results, amount);
 };

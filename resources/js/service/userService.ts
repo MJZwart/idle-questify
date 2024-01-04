@@ -26,19 +26,20 @@ const createNewUser = (): User => {
 
 export const user = ref<User>(createNewUser());
 
-export const applyExperience = (results: CombatResult): void => {
-    user.value.experience += results.exp;
+export const applyExperience = (results: CombatResult, amount = 1): void => {
+    user.value.experience += results.exp * amount;
     checkAndApplyLevelUp();
     const damageTakenModifier = roundToDecimals(1 - results.userHealth / calculateHitPoints.value + 0.5, 3);
     const hitModifier = roundToDecimals(1 - results.hits / results.rounds + 0.5, 3);
-    user.value.damage += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
-    user.value.power += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
-    user.value.hit += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * hitModifier;
+    user.value.damage += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
+    user.value.power += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
+    user.value.hit += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * hitModifier * amount;
     user.value.defence +=
-        results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * damageTakenModifier;
-    user.value.dodge += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
-    user.value.criticalChance += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5);
-    user.value.criticalDamage += (results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5)) / 4;
+        results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * damageTakenModifier * amount;
+    user.value.dodge += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
+    user.value.criticalChance += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
+    user.value.criticalDamage +=
+        ((results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5)) / 4) * amount;
 };
 
 const checkAndApplyLevelUp = (): void => {
