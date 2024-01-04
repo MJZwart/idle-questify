@@ -1,10 +1,8 @@
 import {selectedEnemyId, startCombat} from './combatService';
 import {user} from './userService';
 
-let autosaveInterval = null;
-
 export const startAutosave = (): void => {
-    autosaveInterval = setInterval(saveGame, 300000);
+    setInterval(saveGame, 300000);
 };
 
 export const saveGame = (): void => {
@@ -22,10 +20,29 @@ export const loadGame = (): boolean => {
     if (!saveGame) return false;
     const parsedObject = JSON.parse(saveGame);
     user.value = parsedObject.user;
-    selectedEnemyId.value = parsedObject.selectedEnemyId;
+    let lastAction = '';
+    if (parsedObject.selectedEnemyId) {
+        selectedEnemyId.value = parsedObject.selectedEnemyId;
+        lastAction = 'combat';
+    }
+    calculateOfflineProgress(lastAction);
     return true;
 };
 
 export const checkGameState = (): void => {
     if (selectedEnemyId !== null) startCombat();
+};
+
+const calculateOfflineProgress = (action: string) => {
+    if (!user.value) return;
+    // Check is last save was more than 10 minutes ago
+    const currentTimestamp = new Date().valueOf();
+    let lastSave = user.value.lastSave;
+    if (typeof lastSave === 'string') lastSave = new Date(lastSave); // Fixes date typing
+    if (currentTimestamp - 600000 > lastSave.valueOf()) {
+        if (action === 'combat') {
+            const actionsPassed = Math.floor((currentTimestamp - lastSave.valueOf()) / 3000);
+            console.log(actionsPassed);
+        }
+    }
 };

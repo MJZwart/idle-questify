@@ -1,5 +1,5 @@
 export type User = UserStats & {
-    lastSave: Date;
+    lastSave: Date | string;
     level: number;
     experience: number;
     gold: number;
