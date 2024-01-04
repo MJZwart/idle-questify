@@ -42,7 +42,6 @@ const calculateOfflineProgress = (action: string) => {
     if (currentTimestamp - 600000 > lastSave.valueOf()) {
         if (action === 'combat') {
             const actionsPassed = Math.floor((currentTimestamp - lastSave.valueOf()) / 3000);
-            console.log('calculating rewards for ' + actionsPassed + ' actions');
             initiateCombat(actionsPassed);
         }
     }

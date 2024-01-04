@@ -20,7 +20,7 @@ export const startCombat = (): void => {
     if (!selectedEnemy) return;
     if (isCombatActive.value) return;
     initiateCombat();
-    activeCombat.value = setInterval(fightEnemy, 3000);
+    activeCombat.value = setInterval(initiateCombat, 3000);
 };
 export const endCombat = (): void => {
     clearInterval(activeCombat.value);
