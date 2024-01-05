@@ -1,11 +1,7 @@
 <template>
     <div class="align-center flex flex-col">
         <div>
-            <select v-model="selectedEnemyId" class="mr-2 mb-3">
-                <option v-for="(enemy, idx) in enemies" :key="idx" :value="enemy.id">
-                    {{ enemy.name }}
-                </option>
-            </select>
+            <input v-model="selectedEnemyLevel" class="mr-2" />
             <button type="button" @click="startCombat" class="mr-2">Battle</button>
             <button type="button" @click="endCombat">Stop battling</button>
         </div>
@@ -46,9 +42,8 @@
 </template>
 
 <script setup lang="ts">
-import {enemies} from 'assets/lists/enemies';
 import ActiveFight from './components/ActiveFight.vue';
-import {startCombat, endCombat, latestCombatResult, selectedEnemyId} from 'service/combatService';
+import {startCombat, endCombat, latestCombatResult, selectedEnemyLevel} from 'service/combatService';
 </script>
 
 <style lang="scss" scoped>

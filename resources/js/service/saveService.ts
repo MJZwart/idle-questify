@@ -1,4 +1,4 @@
-import {initiateCombat, selectedEnemyId, startCombat} from './combatService';
+import {initiateCombat, selectedEnemyLevel, startCombat} from './combatService';
 import {addSuccessToast} from './toastService';
 import {user} from './userService';
 
@@ -10,7 +10,7 @@ export const saveGame = (): void => {
     user.value.lastSave = new Date();
     const objectToSave = {
         user: user.value,
-        selectedEnemyId: selectedEnemyId.value,
+        selectedEnemyLevel: selectedEnemyLevel.value,
     };
     localStorage.setItem('questify-save', JSON.stringify(objectToSave));
     addSuccessToast('Game saved!');
@@ -22,8 +22,8 @@ export const loadGame = (): boolean => {
     const parsedObject = JSON.parse(saveGame);
     user.value = parsedObject.user;
     let lastAction = '';
-    if (parsedObject.selectedEnemyId) {
-        selectedEnemyId.value = parsedObject.selectedEnemyId;
+    if (parsedObject.selectedEnemyLevel) {
+        selectedEnemyLevel.value = parsedObject.selectedEnemyLevel;
         lastAction = 'combat';
     }
     calculateOfflineProgress(lastAction);
@@ -32,7 +32,7 @@ export const loadGame = (): boolean => {
 };
 
 export const checkGameState = (): void => {
-    if (selectedEnemyId !== null) startCombat();
+    if (selectedEnemyLevel.value !== null) startCombat();
 };
 
 const calculateOfflineProgress = (action: string) => {
