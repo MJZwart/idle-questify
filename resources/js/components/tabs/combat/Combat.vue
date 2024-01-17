@@ -13,7 +13,8 @@
                 <span class="text-success text-bold">Success</span>
                 <br />
                 <span>
-                    You gained {{ latestCombatResult.exp }} experience and looted {{ latestCombatResult.gold }} gold.
+                    You gained {{ parseBigNumbers(latestCombatResult.exp) }} experience and looted
+                    {{ parseBigNumbers(latestCombatResult.gold) }} gold.
                 </span>
             </div>
             <span v-else class="text-danger text-bold">Defeat</span>
@@ -42,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import {parseBigNumbers} from 'helpers/numberHelper';
 import ActiveFight from './components/ActiveFight.vue';
 import {startCombat, endCombat, latestCombatResult, selectedEnemyLevel} from 'service/combatService';
 </script>

@@ -11,8 +11,8 @@
             <tbody>
                 <tr v-for="row in tableRows">
                     <td>{{ row.label }}</td>
-                    <td>{{ roundToDecimals(user[row.variable], 2) }}</td>
-                    <td>{{ roundToDecimals(user[row.total], 2) }}</td>
+                    <td>{{ parseBigNumbers(user[row.variable]) }}</td>
+                    <td>{{ parseBigNumbers(user[row.total]) }}</td>
                 </tr>
             </tbody>
         </table>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import {user} from 'service/userService';
-import {roundToDecimals} from 'helpers/numberHelper';
+import {parseBigNumbers, roundToDecimals} from 'helpers/numberHelper';
 import {UserStats} from 'types/user';
 
 type UserStatTable = {
