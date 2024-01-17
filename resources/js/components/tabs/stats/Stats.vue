@@ -8,7 +8,7 @@
                     <th>Total</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-align-right">
                 <tr v-for="row in tableRows">
                     <td>{{ row.label }}</td>
                     <td>{{ parseBigNumbers(user[row.variable]) }}</td>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import {user} from 'service/userService';
-import {parseBigNumbers, roundToDecimals} from 'helpers/numberHelper';
+import {parseBigNumbers} from 'helpers/numberHelper';
 import {UserStats} from 'types/user';
 
 type UserStatTable = {
