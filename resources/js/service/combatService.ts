@@ -3,20 +3,21 @@ import {calculateDamage, calculateHitChance, calculateHitPoints} from './userSta
 import {ref, computed} from 'vue';
 import {applyExperience, user} from './userService';
 import {CombatResult} from 'types/combat';
-import {enemies} from 'assets/lists/enemies';
 import {randomBetween} from '../helpers/numberHelper';
+import {spawnEnemy} from 'helpers/enemySpawner';
 
 const activeCombat = ref<NodeJS.Timeout | number>();
 export const isCombatActive = computed(() => activeCombat.value !== undefined);
 export const latestCombatResult = ref<CombatResult>();
 
-export const selectedEnemyId = ref<number | null>(null); // TODO Automatically pick selected from last selection
+export const selectedEnemyLevel = ref<number | null>(null);
 export const selectedEnemy = computed(() => {
-    if (selectedEnemyId === null) return null;
-    return enemies.find(enemy => enemy.id === selectedEnemyId.value) ?? null;
+    if (selectedEnemyLevel.value === null) return null;
+    return spawnEnemy(selectedEnemyLevel.value);
 });
 
 export const startCombat = (): void => {
+    console.log('starting combat');
     if (!selectedEnemy) return;
     if (isCombatActive.value) return;
     initiateCombat();
@@ -87,7 +88,7 @@ const fightAndApply = (enemy: Enemy) => {
  * The results are applied and saved locally for this round. These will be overwritten every fight.
  */
 const fightEnemy = (enemy: Enemy): CombatResult => {
-    console.log('starting fight');
+    console.log('starting fight', enemy);
     let rounds = 1;
     let misses = 0;
     let hits = 0;
