@@ -5,6 +5,24 @@ import {calculateHitPoints} from './userStatService';
 import {randomBetweenSmall, roundToDecimals} from '../helpers/numberHelper';
 import {experienceCapForLevel} from '../helpers/experienceForLevel';
 import {addSuccessToast} from './toastService';
+import {
+    MIN_DMG_ADDITION,
+    MAX_DMG_ADDITION,
+    MIN_PWR_ADDITION,
+    MAX_PWR_ADDITION,
+    MIN_HIT_ADDITION,
+    MAX_HIT_ADDITION,
+    MIN_DEF_ADDITION,
+    MAX_DEF_ADDITION,
+    MIN_DDG_ADDITION,
+    MAX_DDG_ADDITION,
+    MIN_CRT_CHN_ADDITION,
+    MAX_CRT_CHN_ADDITION,
+    MIN_CRT_DMG_ADDITION,
+    MAX_CRT_DMG_ADDITION,
+    HIT_MODIFIER,
+    DMG_MODIFIER,
+} from 'assets/variables/progress';
 
 const createNewUser = (): User => {
     return {
@@ -29,17 +47,32 @@ export const user = ref<User>(createNewUser());
 export const applyExperience = (results: CombatResult, amount = 1): void => {
     user.value.experience += results.exp * amount;
     checkAndApplyLevelUp();
-    const damageTakenModifier = roundToDecimals(1 - results.userHealth / calculateHitPoints.value + 0.5, 3);
-    const hitModifier = roundToDecimals(1 - results.hits / results.rounds + 0.5, 3);
-    user.value.damage += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
-    user.value.power += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
-    user.value.hit += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * hitModifier * amount;
+    const damageTakenModifier = roundToDecimals(1 - results.userHealth / calculateHitPoints.value + DMG_MODIFIER, 3);
+    const hitModifier = roundToDecimals(1 - results.hits / results.rounds + HIT_MODIFIER, 3);
+    user.value.damage +=
+        results.enemy.level * roundToDecimals(randomBetweenSmall(MIN_DMG_ADDITION, MAX_DMG_ADDITION), 5) * amount;
+    user.value.power +=
+        results.enemy.level * roundToDecimals(randomBetweenSmall(MIN_PWR_ADDITION, MAX_PWR_ADDITION), 5) * amount;
+    user.value.hit +=
+        results.enemy.level *
+        roundToDecimals(randomBetweenSmall(MIN_HIT_ADDITION, MAX_HIT_ADDITION), 5) *
+        hitModifier *
+        amount;
     user.value.defence +=
-        results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * damageTakenModifier * amount;
-    user.value.dodge += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
-    user.value.criticalChance += results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5) * amount;
+        results.enemy.level *
+        roundToDecimals(randomBetweenSmall(MIN_DEF_ADDITION, MAX_DEF_ADDITION), 5) *
+        damageTakenModifier *
+        amount;
+    user.value.dodge +=
+        results.enemy.level * roundToDecimals(randomBetweenSmall(MIN_DDG_ADDITION, MAX_DDG_ADDITION), 5) * amount;
+    user.value.criticalChance +=
+        results.enemy.level *
+        roundToDecimals(randomBetweenSmall(MIN_CRT_CHN_ADDITION, MAX_CRT_CHN_ADDITION), 5) *
+        amount;
     user.value.criticalDamage +=
-        ((results.enemy.level * roundToDecimals(randomBetweenSmall(0.001, 0.005), 5)) / 4) * amount;
+        ((results.enemy.level * roundToDecimals(randomBetweenSmall(MIN_CRT_DMG_ADDITION, MAX_CRT_DMG_ADDITION), 5)) /
+            4) *
+        amount;
 };
 
 const checkAndApplyLevelUp = (): void => {
