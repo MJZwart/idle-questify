@@ -5,6 +5,20 @@ import {applyExperience, user} from './userService';
 import {CombatResult} from 'types/combat';
 import {randomBetween} from '../helpers/numberHelper';
 import {spawnEnemy} from 'helpers/enemySpawner';
+import {
+    EXPERIENCE,
+    MAX_ATK_MULTI,
+    MAX_DEF_MULTI,
+    MAX_DMG_MULTI,
+    MAX_GOLD,
+    MAX_ROUNDS,
+    MIN_ATK_MULTI,
+    MIN_DEF_MULTI,
+    MIN_DMG_MULTI,
+    MIN_GOLD,
+    SIMULATED_OFFLINE_FIGHTS,
+} from 'assets/variables/combat';
+import {ACTION_TIMER} from 'assets/variables/progress';
 
 const activeCombat = ref<NodeJS.Timeout | number>();
 export const isCombatActive = computed(() => activeCombat.value !== undefined);
@@ -21,7 +35,7 @@ export const startCombat = (): void => {
     if (!selectedEnemy) return;
     if (isCombatActive.value) return;
     initiateCombat();
-    activeCombat.value = setInterval(initiateCombat, 3000);
+    activeCombat.value = setInterval(initiateCombat, ACTION_TIMER);
 };
 export const endCombat = (): void => {
     clearInterval(activeCombat.value);
@@ -33,14 +47,14 @@ export const initiateCombat = (nrOfFights = 1) => {
     if (!enemy) return;
     if (nrOfFights === 1) {
         fightAndApply(enemy);
-    } else if (nrOfFights < 6) {
+    } else if (nrOfFights < SIMULATED_OFFLINE_FIGHTS - 1) {
         for (let i = 0; i < nrOfFights; i++) {
             fightAndApply(enemy);
         }
     } else {
         const multipleRewards: CombatResult[] = [];
         let results: CombatResult | null = null;
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < SIMULATED_OFFLINE_FIGHTS; i++) {
             results = fightEnemy(enemy);
             multipleRewards.push(results);
         }
@@ -94,7 +108,7 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
     let hits = 0;
     let defends = 0;
     let userHealth = calculateHitPoints.value;
-    while (rounds < 250 && userHealth > 0 && enemy.health > 0) {
+    while (rounds < MAX_ROUNDS && userHealth > 0 && enemy.health > 0) {
         const result = calculateRound(enemy, userHealth);
         if (result === 'miss') misses++;
         else if (result === 'defended') defends++;
@@ -114,8 +128,8 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
         userHealth,
         enemyHealth: enemy.health,
         win,
-        gold: win ? Math.floor(enemy.level * randomBetween(1, 5)) : 0,
-        exp: win ? enemy.level * 10 : 0,
+        gold: win ? Math.floor(enemy.level * randomBetween(MIN_GOLD, MAX_GOLD)) : 0,
+        exp: win ? enemy.level * EXPERIENCE : 0,
     };
 };
 
@@ -138,11 +152,11 @@ const calculateRound = (enemy: Enemy, userHealth: number): number | 'miss' | 'de
  */
 const calculateDamageDone = (enemy: Enemy): number => {
     const reduction = calculateDamageReduction(
-        user.value.hit * randomBetween(0.5, 1.5),
-        enemy.defence * randomBetween(0.5, 1.5),
+        user.value.hit * randomBetween(MIN_ATK_MULTI, MAX_ATK_MULTI),
+        enemy.defence * randomBetween(MIN_DEF_MULTI, MAX_DEF_MULTI),
     );
     if (reduction === 1) return 0;
-    let userDamage = calculateDamage.value * randomBetween(0.5, 1.5);
+    let userDamage = calculateDamage.value * randomBetween(MIN_ATK_MULTI, MAX_ATK_MULTI);
 
     return userDamage - userDamage * reduction;
 };
@@ -151,11 +165,11 @@ const calculateDamageDone = (enemy: Enemy): number => {
  */
 const calculateDamageTaken = (enemy: Enemy): number => {
     const reduction = calculateDamageReduction(
-        enemy.attack * randomBetween(0.5, 1.5), // Enemy doesn't have hit, only attack
-        user.value.defence * randomBetween(0.5, 1.5),
+        enemy.attack * randomBetween(MIN_ATK_MULTI, MAX_ATK_MULTI), // Enemy doesn't have hit, only attack
+        user.value.defence * randomBetween(MIN_DEF_MULTI, MAX_DEF_MULTI),
     );
     if (reduction === 1) return 0;
-    let enemyDamage = enemy.attack * randomBetween(0.5, 1.5);
+    let enemyDamage = enemy.attack * randomBetween(MIN_DMG_MULTI, MAX_DMG_MULTI);
     return enemyDamage - enemyDamage * reduction;
 };
 

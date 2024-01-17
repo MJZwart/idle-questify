@@ -1,3 +1,4 @@
+import {ACTION_TIMER, MS_OFFLINE_CUTOFF} from 'assets/variables/progress';
 import {initiateCombat, selectedEnemyLevel, startCombat} from './combatService';
 import {addSuccessToast} from './toastService';
 import {user} from './userService';
@@ -41,9 +42,9 @@ const calculateOfflineProgress = (action: string) => {
     const currentTimestamp = new Date().valueOf();
     let lastSave = user.value.lastSave;
     if (typeof lastSave === 'string') lastSave = new Date(lastSave); // Fixes date typing
-    if (currentTimestamp - 600000 > lastSave.valueOf()) {
+    if (currentTimestamp - MS_OFFLINE_CUTOFF > lastSave.valueOf()) {
         if (action === 'combat') {
-            const actionsPassed = Math.floor((currentTimestamp - lastSave.valueOf()) / 3000);
+            const actionsPassed = Math.floor((currentTimestamp - lastSave.valueOf()) / ACTION_TIMER);
             initiateCombat(actionsPassed);
         }
     }
