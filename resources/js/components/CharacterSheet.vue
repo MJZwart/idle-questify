@@ -7,11 +7,13 @@
             </tr>
             <tr>
                 <td>Experience:</td>
-                <td>{{ user.experience }} / {{ experienceCapForLevel(user.level) }}</td>
+                <td>
+                    {{ parseBigNumbers(user.experience) }} / {{ parseBigNumbers(experienceCapForLevel(user.level)) }}
+                </td>
             </tr>
             <tr>
                 <td>Gold:</td>
-                <td>{{ user.gold }}</td>
+                <td>{{ parseBigNumbers(user.gold) }}</td>
             </tr>
         </table>
     </div>
@@ -20,4 +22,5 @@
 <script setup lang="ts">
 import {experienceCapForLevel} from 'helpers/experienceForLevel';
 import {user} from '../service/userService';
+import {parseBigNumbers} from 'helpers/numberHelper';
 </script>

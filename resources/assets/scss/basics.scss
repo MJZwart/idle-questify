@@ -1,40 +1,43 @@
-@import "_variables";
+@import '_variables';
 
 /*
 Flex
 */
 .flex {
-  display: flex;
+    display: flex;
 }
 .flex-col {
-  flex-direction: column;
+    flex-direction: column;
 }
 .flex-row {
-  flex-direction: row;
+    flex-direction: row;
 }
 
 /*
 Align
 */
 .align-left {
-  align-items: start;
+    align-items: start;
 }
 .align-center {
-  align-items: center;
+    align-items: center;
 }
 
+.text-align-right {
+    text-align: end;
+}
 /*
 Gap
 */
 .gap-1 {
-  gap: 0.25rem;
+    gap: 0.25rem;
 }
 .gap-2 {
-  gap: 0.5rem;
+    gap: 0.5rem;
 }
 .gap-3 {
-  gap: 0.75rem;
+    gap: 0.75rem;
 }
 .gap-4 {
-  gap: 1rem;
+    gap: 1rem;
 }
