@@ -21,7 +21,8 @@
 <script setup lang="ts">
 import {calculateHitPoints} from 'service/userStatService';
 import ProgressBar from 'components/global/ProgressBar.vue';
-import {isCombatActive, latestCombatResult, selectedEnemy, selectedEnemyLevel} from 'service/combatService';
+import {latestCombatResult, selectedEnemy, selectedEnemyLevel} from 'service/combatService';
+import {isCombatActive} from 'service/activeActionsService';
 import {onMounted} from 'vue';
 
 const parseHealth = (health: number) => {

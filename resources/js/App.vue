@@ -15,15 +15,20 @@
 import CharacterSheet from './components/CharacterSheet.vue';
 import ActiveAction from './components/ActiveAction.vue';
 import Tabs from './components/Tabs.vue';
-import {onMounted} from 'vue';
-import {loadGame, startAutosave, checkGameState} from 'service/saveService';
 import ToastWrapper from './components/global/toast/ToastWrapper.vue';
+import {onBeforeUnmount, onMounted} from 'vue';
+import {loadGame, startAutosave, checkGameState} from 'service/saveService';
+import {clearActiveIntervals} from 'service/activeActionsService';
+
 onMounted(() => {
     if (!loadGame()) {
         console.log('No save found, starting new game');
     }
     startAutosave();
     checkGameState();
+});
+onBeforeUnmount(() => {
+    clearActiveIntervals();
 });
 </script>
 
