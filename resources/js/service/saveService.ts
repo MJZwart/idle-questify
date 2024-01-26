@@ -1,7 +1,9 @@
 import {ACTION_TIMER, MS_OFFLINE_CUTOFF} from 'assets/variables/progress';
 import {initiateCombat, selectedEnemyLevel, startCombat} from './combatService';
 import {addSuccessToast} from './toastService';
-import {user} from './userService';
+import {checkUserIntegrity, user} from './userService';
+import {actionType, clearActionInterval} from './activeActionsService';
+import {selectedGatheringType, startGathering} from 'components/tabs/resources/gatheringService';
 
 export const startAutosave = (): void => {
     setInterval(saveGame, 300000);
@@ -12,32 +14,36 @@ export const saveGame = (): void => {
     const objectToSave = {
         user: user.value,
         selectedEnemyLevel: selectedEnemyLevel.value,
+        lastAction: actionType.value,
+        selectedGatheringType: selectedGatheringType.value,
     };
     localStorage.setItem('questify-save', JSON.stringify(objectToSave));
     addSuccessToast('Game saved!');
 };
 
 export const loadGame = (): boolean => {
+    clearActionInterval();
     const saveGame = localStorage.getItem('questify-save');
     if (!saveGame) return false;
     const parsedObject = JSON.parse(saveGame);
     user.value = parsedObject.user;
-    let lastAction = '';
-    if (parsedObject.selectedEnemyLevel) {
-        selectedEnemyLevel.value = parsedObject.selectedEnemyLevel;
-        lastAction = 'combat';
-    }
-    calculateOfflineProgress(lastAction);
+    actionType.value = parsedObject.lastAction;
+    selectedEnemyLevel.value = parsedObject.selectedEnemyLevel;
+    selectedGatheringType.value = parsedObject.selectedGatheringType;
+    calculateOfflineProgress(parsedObject.lastAction);
     addSuccessToast('Game loaded!');
     return true;
 };
 
 export const checkGameState = (): void => {
-    if (selectedEnemyLevel.value !== null) startCombat();
+    checkUserIntegrity();
+    if (selectedEnemyLevel.value !== null && actionType.value === 'combat') startCombat();
+    if (selectedGatheringType.value !== null && actionType.value === 'gathering')
+        startGathering(selectedGatheringType.value);
 };
 
 const calculateOfflineProgress = (action: string) => {
-    if (!user.value) return;
+    if (!user.value || action === 'none') return;
     // Check is last save was more than 10 minutes ago
     const currentTimestamp = new Date().valueOf();
     let lastSave = user.value.lastSave;
