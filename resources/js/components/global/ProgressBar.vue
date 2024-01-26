@@ -1,7 +1,7 @@
 <template>
     <div class="custom-progress">
         <span class="progress-bar-text">
-            {{ parseValue + '%' }}
+            {{ percent ? parseValue + '%' : parseBigNumbers(value, false, 0) + '/' + parseBigNumbers(max, false, 0) }}
         </span>
         <div
             class="custom-progress-bar"
@@ -15,8 +15,9 @@
 </template>
 
 <script setup lang="ts">
+import {parseBigNumbers} from 'helpers/numberHelper';
 import {computed} from 'vue';
-const props = defineProps<{value: number; max: number}>();
+const props = defineProps<{value: number; max: number; percent: boolean}>();
 const widthValue = computed(() => {
     return {width: (100 * props.value) / props.max + '%'};
 });
