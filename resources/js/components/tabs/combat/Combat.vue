@@ -13,8 +13,8 @@
                 <span class="text-success text-bold">Success</span>
                 <br />
                 <span>
-                    You gained {{ parseBigNumbers(latestCombatResult.exp, false, 0) }} experience and looted
-                    {{ parseBigNumbers(latestCombatResult.gold, false, 0) }} gold.
+                    You gained {{ parseBigNumbers(latestCombatResult.exp, 0) }} experience and looted
+                    {{ parseBigNumbers(latestCombatResult.gold, 0) }} gold.
                 </span>
             </div>
             <span v-else class="text-danger text-bold">Defeat</span>

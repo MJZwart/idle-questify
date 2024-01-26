@@ -1,7 +1,7 @@
 <template>
     <div class="custom-progress">
         <span class="progress-bar-text">
-            {{ percent ? parseValue + '%' : parseBigNumbers(value, false, 0) + '/' + parseBigNumbers(max, false, 0) }}
+            {{ percent ? parseValue + '%' : parseBigNumbers(value, 0) + '/' + parseBigNumbers(max, 0) }}
         </span>
         <div
             class="custom-progress-bar"

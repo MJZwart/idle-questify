@@ -21,7 +21,6 @@ import {loadGame, startAutosave, checkGameState} from 'service/saveService';
 import {clearActionInterval} from 'service/activeActionsService';
 
 onMounted(() => {
-    console.log('test');
     if (!loadGame()) {
         console.log('No save found, starting new game');
     }

@@ -8,13 +8,13 @@
             <tr>
                 <td>Experience:</td>
                 <td>
-                    {{ parseBigNumbers(user.experience, false, 0) }} /
-                    {{ parseBigNumbers(experienceCapForLevel(user.level), false, 0) }}
+                    {{ parseBigNumbers(user.experience, 0) }} /
+                    {{ parseBigNumbers(experienceCapForLevel(user.level), 0) }}
                 </td>
             </tr>
             <tr>
                 <td>Gold:</td>
-                <td>{{ parseBigNumbers(user.gold, false, 0) }}</td>
+                <td>{{ parseBigNumbers(user.gold, 0) }}</td>
             </tr>
             <tr>
                 <td colspan="2"><hr /></td>
@@ -55,25 +55,25 @@
             <tr>
                 <td>Food:</td>
                 <td>
-                    {{ parseBigNumbers(user.food, false, 0) }}
+                    {{ parseBigNumbers(user.food, 0) }}
                 </td>
             </tr>
             <tr>
                 <td>Wood:</td>
                 <td>
-                    {{ parseBigNumbers(user.wood, false, 0) }}
+                    {{ parseBigNumbers(user.wood, 0) }}
                 </td>
             </tr>
             <tr>
                 <td>Metal:</td>
                 <td>
-                    {{ parseBigNumbers(user.metal, false, 0) }}
+                    {{ parseBigNumbers(user.metal, 0) }}
                 </td>
             </tr>
             <tr>
                 <td>Stone:</td>
                 <td>
-                    {{ parseBigNumbers(user.stone, false, 0) }}
+                    {{ parseBigNumbers(user.stone, 0) }}
                 </td>
             </tr>
         </table>

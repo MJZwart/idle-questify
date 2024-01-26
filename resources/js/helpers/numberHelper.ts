@@ -28,14 +28,18 @@ const numberShorthands = ['M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc
 
 let shorthand = -1;
 
-export function parseBigNumbers(number: number | string | undefined, longNames = false, decimals = 2): string {
-    if (number === undefined) return '';
-    let nrCopy = typeof number === 'string' ? parseInt(number) : number;
+export function parseBigNumbers(nr: number | string | undefined, decimals = 2, longNames = false): string {
+    if (nr === undefined) return '';
+    let nrCopy = typeof nr === 'string' ? parseInt(nr) : nr;
     if (nrCopy < 1000000) return applyInterpunction(nrCopy.toFixed(decimals));
     nrCopy = reduceToThreeDigits(nrCopy);
     const finalNumber = applyShorthand(reduceToDecimals(nrCopy, decimals), shorthand, longNames);
     shorthand = -1;
     return finalNumber;
+}
+
+export function parseNumberWithBigNames(nr: number | string | undefined, decimals = 2): string {
+    return parseBigNumbers(nr, decimals, true);
 }
 
 function reduceToThreeDigits(number: number) {
