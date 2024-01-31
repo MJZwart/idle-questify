@@ -84,6 +84,4 @@
 import {experienceCapForLevel} from 'helpers/experienceForLevel';
 import {user} from '../service/userService';
 import {parseBigNumbers} from 'helpers/numberHelper';
-
-console.log(user.value);
 </script>

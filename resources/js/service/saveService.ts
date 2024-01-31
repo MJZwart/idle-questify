@@ -43,7 +43,7 @@ export const checkGameState = (): void => {
 };
 
 const calculateOfflineProgress = (action: string) => {
-    if (!user.value || action === 'none') return;
+    if (!user.value || action === null) return;
     // Check is last save was more than 10 minutes ago
     const currentTimestamp = new Date().valueOf();
     let lastSave = user.value.lastSave;

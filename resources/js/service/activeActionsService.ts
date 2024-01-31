@@ -1,13 +1,12 @@
 import {ACTION_TIMER} from 'assets/variables/progress';
 import {ref, computed} from 'vue';
 
-type ActionType = 'combat' | 'gathering' | 'none';
+type ActionType = 'combat' | 'gathering';
 
 const activeAction = ref<NodeJS.Timeout | number>();
-export const actionType = ref<ActionType>('none');
+export const actionType = ref<ActionType | null>(null);
 
 export const startActionInterval = (func: () => void, type: ActionType) => {
-    console.log('Starting action type ', type);
     clearActionInterval();
     activeAction.value = setInterval(func, ACTION_TIMER);
     actionType.value = type;
@@ -15,7 +14,7 @@ export const startActionInterval = (func: () => void, type: ActionType) => {
 
 export const clearActionInterval = () => {
     clearInterval(activeAction.value);
-    actionType.value = 'none';
+    actionType.value = null;
 };
 
 /* Combat */

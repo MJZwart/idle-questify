@@ -18,7 +18,7 @@ import {
     MIN_GOLD,
     SIMULATED_OFFLINE_FIGHTS,
 } from 'assets/variables/combat';
-import {clearActionInterval, isCombatActive, startActionInterval} from './activeActionsService';
+import {isCombatActive, startActionInterval} from './activeActionsService';
 
 export const latestCombatResult = ref<CombatResult>();
 
@@ -34,9 +34,6 @@ export const startCombat = (): void => {
     if (isCombatActive.value) return;
     initiateCombat();
     startActionInterval(initiateCombat, 'combat');
-};
-export const endCombat = (): void => {
-    clearActionInterval();
 };
 
 /** Starts combat one or multiple times */

@@ -44,7 +44,6 @@ export const latestGatheringResult = ref<GatheringResult>();
 export const selectedGatheringType = ref<keyof UserResources | null>(null);
 
 export const startGathering = (type: keyof UserResources) => {
-    console.log('Starting gathering type ', type);
     switch (type) {
         case 'food':
             if (isGatheringActive.value) {
@@ -54,7 +53,6 @@ export const startGathering = (type: keyof UserResources) => {
             }
             endGathering();
             startActionInterval(farming, 'gathering');
-            console.log('Going to start farming');
             break;
         case 'wood':
             if (isGatheringActive.value) {
@@ -64,7 +62,6 @@ export const startGathering = (type: keyof UserResources) => {
             }
             endGathering();
             startActionInterval(woodcutting, 'gathering');
-            console.log('Going to start woodcutting');
             break;
         case 'metal':
             if (isGatheringActive.value) {
@@ -72,7 +69,6 @@ export const startGathering = (type: keyof UserResources) => {
             } else {
                 mining();
             }
-            console.log('Going to start mining');
             endGathering();
             startActionInterval(mining, 'gathering');
             break;
@@ -82,13 +78,11 @@ export const startGathering = (type: keyof UserResources) => {
             } else {
                 stonecutting();
             }
-            console.log('Going to start stonecutting');
             endGathering();
             startActionInterval(stonecutting, 'gathering');
             break;
     }
     selectedGatheringType.value = type;
-    console.log('Gathering type set ', selectedGatheringType.value);
 };
 
 export const endGathering = () => {
@@ -119,7 +113,6 @@ const gatheringAction = (
 ) => {
     const skillName = gatheringTranslation[resourceName].skill;
     const skillExp = gatheringTranslation[resourceName].skillExp;
-    console.log('Action', skillName);
     const resources = Math.floor(calculatedSkill * BASE_RESOURCES);
     const experience = Math.floor(BASE_RESOURCE_EXP + resources / 100);
 
