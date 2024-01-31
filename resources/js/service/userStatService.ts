@@ -19,3 +19,19 @@ export const calculateDamage = computed(() => {
 export const calculateDefence = computed(() => {
     return user.value.defence;
 });
+
+export const calculateFarmingSkill = computed(() => {
+    return user.value.hit * 0.01 + user.value.farming;
+});
+
+export const calculateWoodcuttingSkill = computed(() => {
+    return user.value.damage * 0.01 + user.value.woodcutting;
+});
+
+export const calculateMiningSkill = computed(() => {
+    return user.value.power * 0.01 + user.value.mining;
+});
+
+export const calculateStonecuttingSkill = computed(() => {
+    return user.value.defence * 0.01 + user.value.stonecutting;
+});

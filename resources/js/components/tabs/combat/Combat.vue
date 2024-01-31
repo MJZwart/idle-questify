@@ -1,9 +1,9 @@
 <template>
     <div class="align-center flex flex-col">
         <div>
-            <input v-model="selectedEnemyLevel" class="mr-2" />
+            <input v-model="selectedEnemyLevel" class="mr-2" type="number" />
             <button type="button" @click="startCombat" class="mr-2">Battle</button>
-            <button type="button" @click="endCombat">Stop battling</button>
+            <button type="button" @click="clearActionInterval">Stop battling</button>
         </div>
         <div class="w-100">
             <ActiveFight />
@@ -13,8 +13,8 @@
                 <span class="text-success text-bold">Success</span>
                 <br />
                 <span>
-                    You gained {{ parseBigNumbers(latestCombatResult.exp) }} experience and looted
-                    {{ parseBigNumbers(latestCombatResult.gold) }} gold.
+                    You gained {{ parseBigNumbers(latestCombatResult.exp, 0) }} experience and looted
+                    {{ parseBigNumbers(latestCombatResult.gold, 0) }} gold.
                 </span>
             </div>
             <span v-else class="text-danger text-bold">Defeat</span>
@@ -45,7 +45,8 @@
 <script setup lang="ts">
 import {parseBigNumbers} from 'helpers/numberHelper';
 import ActiveFight from './components/ActiveFight.vue';
-import {startCombat, endCombat, latestCombatResult, selectedEnemyLevel} from 'service/combatService';
+import {startCombat, latestCombatResult, selectedEnemyLevel} from 'service/combatService';
+import {clearActionInterval} from 'service/activeActionsService';
 </script>
 
 <style lang="scss" scoped>

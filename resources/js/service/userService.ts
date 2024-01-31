@@ -31,6 +31,11 @@ const createNewUser = (): User => {
         experience: 0,
         gold: 0,
 
+        food: 0,
+        wood: 0,
+        metal: 0,
+        stone: 0,
+
         baseHealth: 100,
         damage: 1,
         power: 1,
@@ -39,6 +44,15 @@ const createNewUser = (): User => {
         dodge: 1, // UNUSED
         criticalChance: 1,
         criticalDamage: 0.5, // In percentages
+
+        farming: 1,
+        farming_exp: 1,
+        woodcutting: 1,
+        woodcutting_exp: 1,
+        mining: 1,
+        mining_exp: 1,
+        stonecutting: 1,
+        stonecutting_exp: 1,
     };
 };
 
@@ -83,4 +97,14 @@ const checkAndApplyLevelUp = (): void => {
         addSuccessToast('Level up!');
         checkAndApplyLevelUp();
     }
+};
+
+export const checkUserIntegrity = () => {
+    const baseUser = createNewUser();
+    Object.keys(baseUser).forEach(key => {
+        if (!(key in user.value)) {
+            console.log(key + ' not found, adding');
+            user.value[key] = baseUser[key];
+        }
+    });
 };

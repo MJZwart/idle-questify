@@ -1,20 +1,28 @@
 import {Component, shallowRef} from 'vue';
 import Combat from 'components/tabs/combat/Combat.vue';
 import Stats from 'components/tabs/stats/Stats.vue';
+import Gathering from 'components/tabs/resources/Gathering.vue';
 
 type Tab = {
     name: string;
     component: Component;
 };
 
-const availableTabs = [
+export const availableTabs = [
     {
+        title: 'Combat',
         name: 'combat',
         component: Combat,
     },
     {
+        title: 'Stats',
         name: 'stats',
         component: Stats,
+    },
+    {
+        title: 'Gathering',
+        name: 'gathering',
+        component: Gathering,
     },
 ];
 

@@ -18,10 +18,8 @@ import {
     MIN_GOLD,
     SIMULATED_OFFLINE_FIGHTS,
 } from 'assets/variables/combat';
-import {ACTION_TIMER} from 'assets/variables/progress';
+import {isCombatActive, startActionInterval} from './activeActionsService';
 
-const activeCombat = ref<NodeJS.Timeout | number>();
-export const isCombatActive = computed(() => activeCombat.value !== undefined);
 export const latestCombatResult = ref<CombatResult>();
 
 export const selectedEnemyLevel = ref<number | null>(null);
@@ -35,10 +33,7 @@ export const startCombat = (): void => {
     if (!selectedEnemy) return;
     if (isCombatActive.value) return;
     initiateCombat();
-    activeCombat.value = setInterval(initiateCombat, ACTION_TIMER);
-};
-export const endCombat = (): void => {
-    clearInterval(activeCombat.value);
+    startActionInterval(initiateCombat, 'combat');
 };
 
 /** Starts combat one or multiple times */

@@ -1,10 +1,19 @@
-export type User = UserStats & {
-    lastSave: Date | string;
-    level: number;
-    experience: number;
-    gold: number;
+export type User = UserStats &
+    UserGatheringStats &
+    UserResources & {
+        lastSave: Date | string;
+        level: number;
+        experience: number;
+        gold: number;
 
-    // Weapon expertise
+        // Weapon expertise
+    };
+
+export type UserResources = {
+    food: number;
+    wood: number;
+    metal: number;
+    stone: number;
 };
 
 export type UserStats = {
@@ -16,4 +25,18 @@ export type UserStats = {
     dodge: number; // Chance to entirely evade attack, lowers enemy hit
     criticalChance: number; // Critical hit chance
     criticalDamage: number; // Critical damage modifier
+};
+
+export type UserGatheringSkills = {
+    farming: number;
+    woodcutting: number;
+    mining: number;
+    stonecutting: number;
+};
+
+export type UserGatheringExp = {
+    farming_exp: number;
+    woodcutting_exp: number;
+    mining_exp: number;
+    stonecutting_exp: number;
 };
