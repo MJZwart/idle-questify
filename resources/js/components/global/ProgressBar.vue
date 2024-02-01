@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import {parseBigNumbers} from 'helpers/numberHelper';
 import {computed} from 'vue';
-const props = withDefaults(defineProps<{value: number; max: number; percent: boolean}>(), {percent: false});
+const props = withDefaults(defineProps<{value: number; max: number; percent?: boolean}>(), {percent: false});
 
 const widthValue = computed(() => {
     return {width: (100 * props.value) / props.max + '%'};

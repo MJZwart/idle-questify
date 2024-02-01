@@ -3,6 +3,9 @@
         <div>
             <Tabs class="box-border align-center" />
         </div>
+        <div class="box-border align-center p-3">
+            <ActiveInfo />
+        </div>
         <div class="flex flex-row gap-3">
             <CharacterSheet class="box-border character-sheet" />
             <ActiveAction class="box-border w-100" />
@@ -14,6 +17,7 @@
 <script setup lang="ts">
 import CharacterSheet from './components/CharacterSheet.vue';
 import ActiveAction from './components/ActiveAction.vue';
+import ActiveInfo from './components/ActiveInfo.vue';
 import Tabs from './components/Tabs.vue';
 import ToastWrapper from './components/global/toast/ToastWrapper.vue';
 import {onBeforeUnmount, onMounted} from 'vue';
