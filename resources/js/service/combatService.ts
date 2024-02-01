@@ -18,9 +18,7 @@ import {
     MIN_GOLD,
     SIMULATED_OFFLINE_FIGHTS,
 } from 'assets/variables/combat';
-import {isCombatActive, startActionInterval} from './activeActionsService';
-
-export const latestCombatResult = ref<CombatResult>();
+import {isCombatActive, setAction, startActionInterval, latestCombatResult} from './activeActionsService';
 
 export const selectedEnemyLevel = ref<number | null>(null);
 export const selectedEnemy = computed(() => {
@@ -29,11 +27,11 @@ export const selectedEnemy = computed(() => {
 });
 
 export const startCombat = (): void => {
-    console.log('starting combat');
     if (!selectedEnemy) return;
     if (isCombatActive.value) return;
     initiateCombat();
-    startActionInterval(initiateCombat, 'combat');
+    setAction(initiateCombat, 'combat');
+    startActionInterval();
 };
 
 /** Starts combat one or multiple times */
@@ -97,7 +95,6 @@ const fightAndApply = (enemy: Enemy) => {
  * The results are applied and saved locally for this round. These will be overwritten every fight.
  */
 const fightEnemy = (enemy: Enemy): CombatResult => {
-    console.log('starting fight', enemy);
     let rounds = 1;
     let misses = 0;
     let hits = 0;
@@ -188,3 +185,4 @@ const applyResults = (results: CombatResult, amount = 1): void => {
     user.value.gold += results.gold * amount;
     applyExperience(results, amount);
 };
+

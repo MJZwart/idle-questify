@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import {clearActionInterval, isGatheringActive} from 'service/activeActionsService';
-import {startGathering, latestGatheringResult, selectedGatheringType, gatheringTranslation} from './gatheringService';
+import {clearActionInterval, isGatheringActive, latestGatheringResult} from 'service/activeActionsService';
+import {startGathering, selectedGatheringType, gatheringTranslation} from './gatheringService';
 import ProgressBar from 'components/global/ProgressBar.vue';
 import {user} from 'service/userService';
 import {experienceCapForLevel} from 'helpers/experienceForLevel';
