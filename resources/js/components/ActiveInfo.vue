@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import {actionType} from 'service/activeActionsService';
-import {selectedEnemyLevel} from 'service/combatService';
+import {selectedEnemyLevel} from './tabs/combat/combatService';
 import {computed} from 'vue';
 import {gatheringTranslation, selectedGatheringType} from './tabs/resources/gatheringService';
 

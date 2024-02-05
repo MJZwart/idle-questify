@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import {calculateHitPoints} from 'service/userStatService';
 import ProgressBar from 'components/global/ProgressBar.vue';
-import {selectedEnemy, selectedEnemyLevel} from 'service/combatService';
+import {selectedEnemy, selectedEnemyLevel} from '../combatService';
 import {isCombatActive, latestCombatResult} from 'service/activeActionsService';
 import {onMounted} from 'vue';
 

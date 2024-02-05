@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import {onMounted} from 'vue';
-import {removeToast, Toast} from 'service/toastService.ts';
+import {removeToast, Toast} from './toastService.ts';
 
 onMounted(() => {
     setTimeout(() => {

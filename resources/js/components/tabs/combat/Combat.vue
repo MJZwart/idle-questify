@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import {parseBigNumbers} from 'helpers/numberHelper';
 import ActiveFight from './components/ActiveFight.vue';
-import {startCombat, selectedEnemyLevel} from 'service/combatService';
+import {startCombat, selectedEnemyLevel} from './combatService';
 import {clearActionInterval, latestCombatResult} from 'service/activeActionsService';
 </script>
 

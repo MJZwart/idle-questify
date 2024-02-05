@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import Toast from './Toast.vue';
-import {toasts} from 'service/toastService.ts';
+import {toasts} from './toastService.ts';
 </script>
 
 <style lang="scss" scoped>
