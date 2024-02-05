@@ -1,5 +1,5 @@
 <template>
-    <div class="flex align-center flex-col gap-2">
+    <div class="flex align-center flex-col gap-2 h-100">
         <div class="flex gap-1">
             <button @click="startGathering('food')">Farming</button>
             <button @click="startGathering('wood')">Woodcutting</button>
@@ -12,13 +12,15 @@
                 You gained {{ latestGatheringResult.resources }} {{ latestGatheringResult.type }} and
                 {{ latestGatheringResult.experience }} experience
             </div>
-            <ProgressBar
-                :value="user[gatheringTranslation[selectedGatheringType].skillExp]"
-                :max="experienceCapForLevel(user[gatheringTranslation[selectedGatheringType].skill])"
-                :percent="false"
-                class="w-100"
-            />
         </div>
+        <ProgressBar 
+            v-if="selectedGatheringType !== null"
+            :value="user[gatheringTranslation[selectedGatheringType].skillExp]"
+            :max="experienceCapForLevel(user[gatheringTranslation[selectedGatheringType].skill])"
+            :percent="false"
+            :class="selectedGatheringType"
+            class="w-100 mt-auto"
+        />
     </div>
 </template>
 
@@ -29,3 +31,26 @@ import ProgressBar from 'components/global/ProgressBar.vue';
 import {user} from 'service/userService';
 import {experienceCapForLevel} from 'helpers/experienceForLevel';
 </script>
+
+<style lang="scss">
+.food {
+    .custom-progress-bar {
+        background-color: green !important;
+    }
+}
+.wood {
+    .custom-progress-bar {
+        background-color: sienna !important;
+    }
+}
+.metal {
+    .custom-progress-bar {
+        background-color: darkslategray !important;
+    }
+}
+.stone {
+    .custom-progress-bar {
+        background-color: grey !important;
+    }
+}
+</style>
