@@ -25,7 +25,6 @@ import {loadGame, startAutosave, checkGameState} from 'service/saveService';
 import {clearActionInterval, startActionInterval} from 'service/activeActionsService';
 
 onMounted(() => {
-    console.log('mounting');
     if (!loadGame()) {
         console.log('No save found, starting new game');
     }
@@ -34,7 +33,6 @@ onMounted(() => {
     startActionInterval();
 });
 onBeforeUnmount(() => {
-    console.log('unmounting');
     clearActionInterval();
 });
 </script>
