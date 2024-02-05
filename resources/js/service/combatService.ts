@@ -72,6 +72,7 @@ const calculateAverageResult = (results: CombatResult[]): CombatResult => {
     return {
         enemy: results[0].enemy,
         enemyHealth: results[0].enemyHealth,
+        enemyMaxHealth: results[0].enemyMaxHealth,
         rounds: roundsAvg,
         userHealth: healthAvg,
         misses: missesAvg,
@@ -95,13 +96,14 @@ const fightAndApply = (enemy: Enemy) => {
  * The results are applied and saved locally for this round. These will be overwritten every fight.
  */
 const fightEnemy = (enemy: Enemy): CombatResult => {
+    const enemyCopy = {...enemy};
     let rounds = 1;
     let misses = 0;
     let hits = 0;
     let defends = 0;
     let userHealth = calculateHitPoints.value;
-    while (rounds < MAX_ROUNDS && userHealth > 0 && enemy.health > 0) {
-        const result = calculateRound(enemy, userHealth);
+    while (rounds < MAX_ROUNDS && userHealth > 0 && enemyCopy.health > 0) {
+        const result = calculateRound(enemyCopy, userHealth);
         if (result === 'miss') misses++;
         else if (result === 'defended') defends++;
         else {
@@ -110,7 +112,7 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
         }
         rounds++;
     }
-    const win = userHealth > 0 && enemy.health < 0;
+    const win = userHealth > 0 && enemyCopy.health < 0;
     return {
         enemy,
         rounds,
@@ -118,7 +120,8 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
         hits,
         defends,
         userHealth,
-        enemyHealth: enemy.health,
+        enemyHealth: enemyCopy.health,
+        enemyMaxHealth: enemy.health,
         win,
         gold: win ? Math.floor(enemy.level * randomBetween(MIN_GOLD, MAX_GOLD)) : 0,
         exp: win ? enemy.level * EXPERIENCE : 0,

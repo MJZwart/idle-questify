@@ -10,7 +10,7 @@
                     <ProgressBar :max="calculateHitPoints" :value="parseHealth(latestCombatResult.userHealth)" />
                 </td>
                 <td>
-                    <ProgressBar :max="selectedEnemy.health" :value="parseHealth(latestCombatResult.enemyHealth)" />
+                    <ProgressBar :max="latestCombatResult.enemyMaxHealth" :value="parseHealth(latestCombatResult.enemyHealth)" />
                 </td>
             </tr>
         </table>

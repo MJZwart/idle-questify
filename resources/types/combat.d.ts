@@ -6,6 +6,7 @@ export type CombatResult = {
     defends: number;
     userHealth: number;
     enemyHealth: number;
+    enemyMaxHealth: number;
     win: boolean;
     gold: number;
     exp: number;
