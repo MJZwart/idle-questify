@@ -2,7 +2,7 @@ import {BASE_RESOURCES, BASE_RESOURCE_EXP, MAX_SKILL_ADDITION, MIN_SKILL_ADDITIO
 import {experienceCapForLevel} from 'helpers/experienceForLevel';
 import {randomBetweenSmall, roundToDecimals} from 'helpers/numberHelper';
 import {capitalizeFirstLetter} from 'helpers/stringHelper';
-import {clearActionInterval, isGatheringActive, startActionInterval} from 'service/activeActionsService';
+import {clearActionInterval, isGatheringActive, setAction, startActionInterval, latestGatheringResult} from 'service/activeActionsService';
 import {addSuccessToast} from 'service/toastService';
 import {user} from 'service/userService';
 import {
@@ -11,7 +11,6 @@ import {
     calculateStonecuttingSkill,
     calculateWoodcuttingSkill,
 } from 'service/userStatService';
-import {GatheringResult} from 'components/tabs/resources/gathering';
 import {UserGatheringSkills, UserGatheringExp, UserResources, UserStats} from 'types/user';
 import {ref} from 'vue';
 
@@ -39,8 +38,6 @@ export const gatheringTranslation: Record<keyof UserResources, TranslationKey> =
     },
 };
 
-export const latestGatheringResult = ref<GatheringResult>();
-
 export const selectedGatheringType = ref<keyof UserResources | null>(null);
 
 export const startGathering = (type: keyof UserResources) => {
@@ -52,7 +49,8 @@ export const startGathering = (type: keyof UserResources) => {
                 farming();
             }
             endGathering();
-            startActionInterval(farming, 'gathering');
+            setAction(farming, 'gathering');
+            startActionInterval();
             break;
         case 'wood':
             if (isGatheringActive.value) {
@@ -61,7 +59,8 @@ export const startGathering = (type: keyof UserResources) => {
                 woodcutting();
             }
             endGathering();
-            startActionInterval(woodcutting, 'gathering');
+            setAction(woodcutting, 'gathering');
+            startActionInterval();
             break;
         case 'metal':
             if (isGatheringActive.value) {
@@ -70,7 +69,8 @@ export const startGathering = (type: keyof UserResources) => {
                 mining();
             }
             endGathering();
-            startActionInterval(mining, 'gathering');
+            setAction(mining, 'gathering');
+            startActionInterval();
             break;
         case 'stone':
             if (isGatheringActive.value) {
@@ -79,7 +79,8 @@ export const startGathering = (type: keyof UserResources) => {
                 stonecutting();
             }
             endGathering();
-            startActionInterval(stonecutting, 'gathering');
+            setAction(stonecutting, 'gathering');
+            startActionInterval();
             break;
     }
     selectedGatheringType.value = type;

@@ -22,7 +22,7 @@ import Tabs from './components/Tabs.vue';
 import ToastWrapper from './components/global/toast/ToastWrapper.vue';
 import {onBeforeUnmount, onMounted} from 'vue';
 import {loadGame, startAutosave, checkGameState} from 'service/saveService';
-import {clearActionInterval} from 'service/activeActionsService';
+import {clearActionInterval, startActionInterval} from 'service/activeActionsService';
 
 onMounted(() => {
     if (!loadGame()) {
@@ -30,6 +30,7 @@ onMounted(() => {
     }
     startAutosave();
     checkGameState();
+    startActionInterval();
 });
 onBeforeUnmount(() => {
     clearActionInterval();

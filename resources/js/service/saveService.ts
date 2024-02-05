@@ -2,7 +2,7 @@ import {ACTION_TIMER, MS_OFFLINE_CUTOFF} from 'assets/variables/progress';
 import {initiateCombat, selectedEnemyLevel, startCombat} from './combatService';
 import {addSuccessToast} from './toastService';
 import {checkUserIntegrity, user} from './userService';
-import {actionType, clearActionInterval} from './activeActionsService';
+import {actionType, clearActionInterval, startActionInterval} from './activeActionsService';
 import {selectedGatheringType, startGathering} from 'components/tabs/resources/gatheringService';
 
 export const startAutosave = (): void => {
@@ -31,14 +31,15 @@ export const loadGame = (): boolean => {
     selectedEnemyLevel.value = parsedObject.selectedEnemyLevel;
     selectedGatheringType.value = parsedObject.selectedGatheringType;
     calculateOfflineProgress(parsedObject.lastAction);
+    checkGameState();
     addSuccessToast('Game loaded!');
     return true;
 };
 
 export const checkGameState = (): void => {
     checkUserIntegrity();
-    if (selectedEnemyLevel.value !== null && actionType.value === 'combat') startCombat();
-    if (selectedGatheringType.value !== null && actionType.value === 'gathering')
+    if (actionType.value === 'combat') startCombat();
+    if (actionType.value === 'gathering' && selectedGatheringType.value !== null)
         startGathering(selectedGatheringType.value);
 };
 
@@ -55,3 +56,5 @@ const calculateOfflineProgress = (action: string) => {
         }
     }
 };
+
+startActionInterval();
