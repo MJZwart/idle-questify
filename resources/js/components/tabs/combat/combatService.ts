@@ -1,9 +1,9 @@
 import {Enemy} from 'types/enemy';
-import {calculateDamage, calculateHitChance, calculateHitPoints} from '../../../service/userStatService';
+import {calculateDamage, calculateHitChance, calculateHitPoints} from 'service/userStatService';
 import {ref, computed} from 'vue';
-import {applyExperience, user} from '../../../service/userService';
+import {applyExperience, user} from 'service/userService';
 import {CombatResult} from 'types/combat';
-import {randomBetween} from '../../../helpers/numberHelper';
+import {randomBetween} from 'helpers/numberHelper';
 import {spawnEnemy} from 'helpers/enemySpawner';
 import {
     EXPERIENCE,
@@ -18,7 +18,7 @@ import {
     MIN_GOLD,
     SIMULATED_OFFLINE_FIGHTS,
 } from 'assets/variables/combat';
-import {isCombatActive, setAction, startActionInterval, latestCombatResult} from '../../../service/activeActionsService';
+import {isCombatActive, setAction, startActionInterval, latestCombatResult} from 'service/activeActionsService';
 
 export const selectedEnemyLevel = ref<number | null>(null);
 export const selectedEnemy = computed(() => {
