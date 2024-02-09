@@ -3,7 +3,7 @@ import {experienceCapForLevel} from 'helpers/experienceForLevel';
 import {randomBetweenSmall, roundToDecimals} from 'helpers/numberHelper';
 import {capitalizeFirstLetter} from 'helpers/stringHelper';
 import {clearActionInterval, isGatheringActive, setAction, startActionInterval, latestGatheringResult} from 'service/activeActionsService';
-import {addSuccessToast} from 'service/toastService';
+import {addSuccessToast} from 'components/global/toast/toastService';
 import {user} from 'service/userService';
 import {
     calculateFarmingSkill,

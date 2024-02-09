@@ -1,6 +1,6 @@
 import {ACTION_TIMER, MS_OFFLINE_CUTOFF} from 'assets/variables/progress';
-import {initiateCombat, selectedEnemyLevel, startCombat} from './combatService';
-import {addSuccessToast} from './toastService';
+import {initiateCombat, selectedEnemyLevel, startCombat} from '../components/tabs/combat/combatService';
+import {addSuccessToast} from '../components/global/toast/toastService';
 import {checkUserIntegrity, user} from './userService';
 import {actionType, clearActionInterval, startActionInterval} from './activeActionsService';
 import {selectedGatheringType, startGathering} from 'components/tabs/resources/gatheringService';

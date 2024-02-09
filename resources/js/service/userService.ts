@@ -4,7 +4,7 @@ import {CombatResult} from 'types/combat';
 import {calculateHitPoints} from './userStatService';
 import {randomBetweenSmall, roundToDecimals} from '../helpers/numberHelper';
 import {experienceCapForLevel} from '../helpers/experienceForLevel';
-import {addSuccessToast} from './toastService';
+import {addSuccessToast} from '../components/global/toast/toastService';
 import {
     MIN_DMG_ADDITION,
     MAX_DMG_ADDITION,
