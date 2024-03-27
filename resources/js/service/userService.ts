@@ -24,7 +24,7 @@ import {
     DMG_MODIFIER,
 } from 'assets/variables/progress';
 
-const createNewUser = (): User => {
+export const createNewUser = (): User => {
     return {
         lastSave: new Date(),
         level: 1,

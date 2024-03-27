@@ -35,9 +35,21 @@ export const startCombat = (): void => {
 };
 
 /** Starts combat one or multiple times */
-export const initiateCombat = (nrOfFights = 1) => {
-    const enemy = <Enemy>{...selectedEnemy.value};
+export const initiateCombat = (nrOfFights = 1, simulation = false, chosenEnemy: Enemy | null = null) => {
+    const enemy = chosenEnemy ?? <Enemy>{...selectedEnemy.value};
     if (!enemy) return;
+    if (simulation) {
+        const multipleRewards: CombatResult[] = [];
+        let results: CombatResult | null = null;
+        for (let i = 0; i < 20; i++) { //One minute of combat
+            results = fightEnemy(enemy);
+            multipleRewards.push(results);
+        }
+        return calculateAverageResult(multipleRewards);
+        // TODO
+        // Separate so 'initiate combat' doesn' actually apply anything
+        // It shouldn't have any side effects, and separating allows for easier returns on simulation
+    }
     if (nrOfFights === 1) {
         fightAndApply(enemy);
     } else if (nrOfFights < SIMULATED_OFFLINE_FIGHTS - 1) {

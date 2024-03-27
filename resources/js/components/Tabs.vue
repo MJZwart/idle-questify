@@ -22,5 +22,9 @@ const availableLinks = [
         title: 'Gathering',
         name: 'gathering',
     },
+    {
+        title: 'Playground',
+        name: 'playground',
+    },
 ];
 </script>
