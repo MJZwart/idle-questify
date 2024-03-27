@@ -109,7 +109,6 @@ const fightAndApply = (enemy: Enemy) => {
  */
 const fightEnemy = (enemy: Enemy): CombatResult => {
     const enemyCopy = {...enemy};
-    console.log(enemy, enemyCopy)
     let rounds = 1;
     let misses = 0;
     let hits = 0;
@@ -126,7 +125,6 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
         rounds++;
     }
     const win = userHealth > 0 && enemyCopy.health < 0;
-    console.log(enemy, enemyCopy)
     return {
         enemy,
         rounds,
