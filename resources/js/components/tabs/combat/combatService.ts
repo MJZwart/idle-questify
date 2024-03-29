@@ -19,6 +19,7 @@ import {
     SIMULATED_OFFLINE_FIGHTS,
 } from 'assets/variables/combat';
 import {isCombatActive, setAction, startActionInterval, latestCombatResult} from 'service/activeActionsService';
+import { User } from 'types/user';
 
 export const selectedEnemyLevel = ref<number | null>(null);
 export const selectedEnemy = computed(() => {
@@ -35,19 +36,20 @@ export const startCombat = (): void => {
 };
 
 /** Starts combat one or multiple times */
-export const initiateCombat = (nrOfFights = 1, simulation = false, chosenEnemy: Enemy | null = null) => {
+export const initiateCombat = (nrOfFights = 1, simulation = false, chosenEnemy: Enemy | null = null, userCopy: User | null = null) => {
     const enemy = chosenEnemy ?? <Enemy>{...selectedEnemy.value};
     if (!enemy) return;
     if (simulation) {
         const multipleRewards: CombatResult[] = [];
         let results: CombatResult | null = null;
+        if (!userCopy) return;
         for (let i = 0; i < 20; i++) { //One minute of combat
-            results = fightEnemy(enemy);
+            results = fightEnemy(enemy, userCopy);
             multipleRewards.push(results);
         }
         return calculateAverageResult(multipleRewards);
         // TODO
-        // Separate so 'initiate combat' doesn' actually apply anything
+        // Separate so 'initiate combat' doesn't actually apply anything
         // It shouldn't have any side effects, and separating allows for easier returns on simulation
     }
     if (nrOfFights === 1) {
@@ -60,7 +62,7 @@ export const initiateCombat = (nrOfFights = 1, simulation = false, chosenEnemy: 
         const multipleRewards: CombatResult[] = [];
         let results: CombatResult | null = null;
         for (let i = 0; i < SIMULATED_OFFLINE_FIGHTS; i++) {
-            results = fightEnemy(enemy);
+            results = fightEnemy(enemy, user.value);
             multipleRewards.push(results);
         }
         const averageRewards = calculateAverageResult(multipleRewards);
@@ -98,7 +100,7 @@ const calculateAverageResult = (results: CombatResult[]): CombatResult => {
 
 /** Starts combat and applies the results */
 const fightAndApply = (enemy: Enemy) => {
-    const results = fightEnemy(enemy);
+    const results = fightEnemy(enemy, user.value);
     latestCombatResult.value = results;
     if (results.win) return applyResults(results);
 };
@@ -107,7 +109,7 @@ const fightAndApply = (enemy: Enemy) => {
  * Initiates combat. Each fight has a max of 250 rounds (after which it is a draw)
  * The results are applied and saved locally for this round. These will be overwritten every fight.
  */
-const fightEnemy = (enemy: Enemy): CombatResult => {
+const fightEnemy = (enemy: Enemy, activeUser: User): CombatResult => {
     const enemyCopy = {...enemy};
     let rounds = 1;
     let misses = 0;
@@ -115,7 +117,9 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
     let defends = 0;
     let userHealth = calculateHitPoints.value;
     while (rounds < MAX_ROUNDS && userHealth > 0 && enemyCopy.health > 0) {
-        const result = calculateRound(enemyCopy, userHealth);
+        // console.log(activeUser, enemyCopy)
+        const result = calculateRound(enemyCopy, userHealth, activeUser);
+        // console.log(enemyCopy.health)
         if (result === 'miss') misses++;
         else if (result === 'defended') defends++;
         else {
@@ -125,6 +129,7 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
         rounds++;
     }
     const win = userHealth > 0 && enemyCopy.health < 0;
+    // console.log(enemyCopy.health)
     return {
         enemy,
         rounds,
@@ -143,10 +148,12 @@ const fightEnemy = (enemy: Enemy): CombatResult => {
 /**
  * Calculates the damage done and damage taken, then returns the user health or miss/hit
  */
-const calculateRound = (enemy: Enemy, userHealth: number): number | 'miss' | 'defended' => {
-    const hitChance = calculateHitChance.value;
+const calculateRound = (enemy: Enemy, userHealth: number, user: User): number | 'miss' | 'defended' => {
+    const hitChance = calculateHitChance(user);
     if (Math.random() > hitChance) return 'miss';
-    const damageDone = calculateDamageDone(enemy);
+    // console.log(user, enemy)
+    const damageDone = calculateDamageDone(enemy, user);
+    // console.log(damageDone);
     if (damageDone === 0) return 'defended';
     enemy.health -= damageDone;
     const damageTaken = calculateDamageTaken(enemy);
@@ -157,13 +164,14 @@ const calculateRound = (enemy: Enemy, userHealth: number): number | 'miss' | 'de
 /**
  * Damage done is a random number * user damage * reduction
  */
-const calculateDamageDone = (enemy: Enemy): number => {
+const calculateDamageDone = (enemy: Enemy, user: User): number => {
+    console.log(user)
     const reduction = calculateDamageReduction(
-        user.value.hit * randomBetween(MIN_ATK_MULTI, MAX_ATK_MULTI),
+        user.hit * randomBetween(MIN_ATK_MULTI, MAX_ATK_MULTI),
         enemy.defence * randomBetween(MIN_DEF_MULTI, MAX_DEF_MULTI),
     );
     if (reduction === 1) return 0;
-    let userDamage = calculateDamage.value * randomBetween(MIN_ATK_MULTI, MAX_ATK_MULTI);
+    let userDamage = calculateDamage(user) * randomBetween(MIN_ATK_MULTI, MAX_ATK_MULTI);
 
     return userDamage - userDamage * reduction;
 };

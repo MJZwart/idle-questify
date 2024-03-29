@@ -1,4 +1,4 @@
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
 import {User} from 'types/user';
 import {CombatResult} from 'types/combat';
 import {calculateHitPoints} from './userStatService';

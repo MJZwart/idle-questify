@@ -9,6 +9,6 @@ export const enemyLevel = ref(1);
 export const runSimulation = (type: 'combat' | 'gathering') => {
     console.log(type)
     if (type === 'combat') {
-        console.log(initiateCombat(1, true, spawnEnemy(enemyLevel.value)));
+        console.log(initiateCombat(1, true, spawnEnemy(enemyLevel.value), testUser));
     }
 }

@@ -11,7 +11,7 @@ import {
     calculateStonecuttingSkill,
     calculateWoodcuttingSkill,
 } from 'service/userStatService';
-import {UserGatheringSkills, UserGatheringExp, UserResources, UserStats} from 'types/user';
+import {UserGatheringSkills, UserGatheringExp, UserResources, UserStats, User} from 'types/user';
 import {ref} from 'vue';
 
 type TranslationKey = {
@@ -91,20 +91,20 @@ export const endGathering = () => {
     selectedGatheringType.value = null;
 };
 
-const farming = () => {
-    gatheringAction('food', 'hit', calculateFarmingSkill.value);
+const farming = (activeUser: User | null = null) => {
+    gatheringAction('food', 'hit', calculateFarmingSkill(activeUser ?? user.value));
 };
 
-const woodcutting = () => {
-    gatheringAction('wood', 'damage', calculateWoodcuttingSkill.value);
+const woodcutting = (activeUser: User | null = null) => {
+    gatheringAction('wood', 'damage', calculateWoodcuttingSkill(activeUser ?? user.value));
 };
 
-const mining = () => {
-    gatheringAction('metal', 'power', calculateMiningSkill.value);
+const mining = (activeUser: User | null = null) => {
+    gatheringAction('metal', 'power', calculateMiningSkill(activeUser ?? user.value));
 };
 
-const stonecutting = () => {
-    gatheringAction('stone', 'defence', calculateStonecuttingSkill.value);
+const stonecutting = (activeUser: User | null = null) => {
+    gatheringAction('stone', 'defence', calculateStonecuttingSkill(activeUser ?? user.value));
 };
 
 const gatheringAction = (

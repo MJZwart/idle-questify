@@ -1,4 +1,5 @@
 import {user} from 'service/userService';
+import { User } from 'types/user';
 import {computed} from 'vue';
 
 export const calculateHitPoints = computed(() => {
@@ -6,32 +7,32 @@ export const calculateHitPoints = computed(() => {
 });
 
 // Base hit chance is 60%. Every point of hit increases it by 1%.
-export const calculateHitChance = computed(() => {
-    return user.value.hit / 100 + 0.6;
-});
+export const calculateHitChance = (user: User) => {
+    return user.hit / 100 + 0.6;
+};
 
 //
-export const calculateDamage = computed(() => {
-    return user.value.damage;
-});
+export const calculateDamage = (user: User) => {
+    return user.damage;
+};
 
 //
-export const calculateDefence = computed(() => {
-    return user.value.defence;
-});
+export const calculateDefence = (user: User) => {
+    return user.defence;
+};
 
-export const calculateFarmingSkill = computed(() => {
-    return user.value.hit * 0.01 + user.value.farming;
-});
+export const calculateFarmingSkill = (user: User) => {
+    return user.hit * 0.01 + user.farming;
+};
 
-export const calculateWoodcuttingSkill = computed(() => {
-    return user.value.damage * 0.01 + user.value.woodcutting;
-});
+export const calculateWoodcuttingSkill = (user: User) => {
+    return user.damage * 0.01 + user.woodcutting;
+};
 
-export const calculateMiningSkill = computed(() => {
-    return user.value.power * 0.01 + user.value.mining;
-});
+export const calculateMiningSkill = (user: User) => {
+    return user.power * 0.01 + user.mining;
+};
 
-export const calculateStonecuttingSkill = computed(() => {
-    return user.value.defence * 0.01 + user.value.stonecutting;
-});
+export const calculateStonecuttingSkill = (user: User) => {
+    return user.defence * 0.01 + user.stonecutting;
+};
