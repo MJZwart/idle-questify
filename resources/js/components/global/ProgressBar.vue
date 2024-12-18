@@ -26,17 +26,16 @@ const valueInPercentage = computed(() => ((100 * props.value) / props.max).toFix
 </script>
 
 <style lang="scss" scoped>
-@import 'assets/scss/_variables.scss';
 .custom-progress {
     display: flex;
     height: 1.5rem;
     overflow: hidden;
-    background-color: $primary;
+    background-color: white;
     border-radius: 0.5rem;
     position: relative;
 
     .custom-progress-bar {
-        background-color: $secondary;
+        background-color: teal;
         transition: width 0.6s ease;
         position: absolute;
         top: 0;

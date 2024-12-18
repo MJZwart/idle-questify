@@ -31,7 +31,6 @@ const dismissToast = () => {
 </script>
 
 <style lang="scss" scoped>
-@import 'assets/scss/_variables.scss';
 .success {
     background-color: #009900;
 }
@@ -84,7 +83,7 @@ const dismissToast = () => {
         border: none;
         cursor: pointer;
         background: none;
-        color: $primary;
+        color: white;
         height: fit-content;
         padding-bottom: 3px;
         border-radius: 0.2rem;

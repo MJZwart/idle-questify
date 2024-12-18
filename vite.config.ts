@@ -1,6 +1,7 @@
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
+import Unocss from 'unocss/vite';
 
 const srcPath = path.resolve('resources');
 const jsPath = path.resolve('resources/js');
@@ -8,7 +9,7 @@ const jsPath = path.resolve('resources/js');
 // https://vitejs.dev/config/
 export default defineConfig(({}) => {
     return {
-        plugins: [vue()],
+        plugins: [vue(), Unocss({})],
         resolve: {
             alias: {
                 assets: path.join(srcPath, 'assets'),

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="gathering-selection mb-3">
+        <div mb-3 class="gathering-selection">
             <span>
                 <button @click="gatheringType = 'food'">Farming</button>
                 <button @click="gatheringType = 'wood'">Woodcutting</button>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col p-3">
+    <div flex flex-col p-4>
         <table>
             <tr>
                 <td>Level:</td>

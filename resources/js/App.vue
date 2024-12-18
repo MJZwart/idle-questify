@@ -1,14 +1,12 @@
 <template>
-    <div class="flex flex-col w-100 gap-3">
-        <div>
-            <Tabs class="box-border align-center" />
-        </div>
-        <div class="box-border align-center p-3">
+    <div flex flex-col w-full gap-3>
+        <Tabs border border-solid border-black rounded-lg items-center />
+        <div border border-solid border-black rounded-lg p-4 items-center>
             <ActiveInfo />
         </div>
-        <div class="flex flex-row gap-3">
-            <CharacterSheet class="box-border character-sheet" />
-            <router-view class="box-border w-100 p-3" />
+        <div flex flex-row gap-3>
+            <CharacterSheet border border-solid border-black rounded-lg class="character-sheet" />
+            <router-view border border-solid border-black rounded-lg w-full p-4 />
         </div>
     </div>
     <ToastWrapper />

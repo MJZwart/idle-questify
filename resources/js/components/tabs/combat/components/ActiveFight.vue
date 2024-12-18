@@ -1,18 +1,20 @@
 <template>
     <div>
-        <table v-if="isCombatActive && latestCombatResult && selectedEnemy" class="active-fight">
-            <tr>
-                <td>You</td>
-                <td>{{ latestCombatResult.enemy.name }}</td>
-            </tr>
-            <tr>
-                <td>
-                    <ProgressBar :max="calculateHitPoints" :value="parseHealth(latestCombatResult.userHealth)" />
-                </td>
-                <td>
-                    <ProgressBar :max="latestCombatResult.enemyMaxHealth" :value="parseHealth(latestCombatResult.enemyHealth)" />
-                </td>
-            </tr>
+        <table v-if="isCombatActive && latestCombatResult && selectedEnemy" class="active-fight" w-full>
+            <tbody>
+                <tr>
+                    <td>You</td>
+                    <td>{{ latestCombatResult.enemy.name }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <ProgressBar :max="calculateHitPoints" :value="parseHealth(latestCombatResult.userHealth)" />
+                    </td>
+                    <td>
+                        <ProgressBar :max="latestCombatResult.enemyMaxHealth" :value="parseHealth(latestCombatResult.enemyHealth)" />
+                    </td>
+                </tr>
+            </tbody>
         </table>
         <div v-else>Choose an enemy to start combat</div>
     </div>
@@ -39,7 +41,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .active-fight {
-    width: 100%;
     tr td {
         width: 50%;
         padding: 0 2rem;

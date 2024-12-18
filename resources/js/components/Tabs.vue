@@ -1,8 +1,8 @@
 <template>
-    <div class="flex flex-row p-3 gap-2">
+    <div flex flex-row p-4 gap-2>
         <router-link v-for="link in availableLinks" :to="link.name">{{ link.title }}</router-link>
-        <button class="ml-auto" @click="saveGame">Save game</button>
-        <button class="ml-2" @click="loadGame">Load latest</button>
+        <button ml-auto @click="saveGame">Save game</button>
+        <button ml-2 @click="loadGame">Load latest</button>
     </div>
 </template>
 

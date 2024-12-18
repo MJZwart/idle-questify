@@ -1,12 +1,12 @@
 <template>
-    <div class="flex align-center flex-col gap-2 h-100">
-        <div class="flex gap-1">
+    <div flex flex-col gap-2 h-100 items-center>
+        <div flex gap-1>
             <button @click="startGathering('food')">Farming</button>
             <button @click="startGathering('wood')">Woodcutting</button>
             <button @click="startGathering('metal')">Mining</button>
             <button @click="startGathering('stone')">Stonecutting</button>
         </div>
-        <div v-if="isGatheringActive && selectedGatheringType !== null" class="flex align-center flex-col gap-2">
+        <div v-if="isGatheringActive && selectedGatheringType !== null" flex flex-col gap-2 items-center>
             <button @click="clearActionInterval()">Stop {{ gatheringTranslation[selectedGatheringType].skill }}</button>
             <div v-if="latestGatheringResult">
                 You gained {{ latestGatheringResult.resources }} {{ latestGatheringResult.type }} and
@@ -19,7 +19,7 @@
             :max="experienceCapForLevel(user[gatheringTranslation[selectedGatheringType].skill])"
             :percent="false"
             :class="selectedGatheringType"
-            class="w-100 mt-auto"
+            w-full mt-auto
         />
     </div>
 </template>

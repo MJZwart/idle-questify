@@ -1,41 +1,43 @@
 <template>
-    <div class="align-center flex flex-col">
+    <div flex flex-col items-center>
         <div>
-            <input v-model="selectedEnemyLevel" class="mr-2" type="number" />
-            <button type="button" @click="startCombat" class="mr-2">Battle</button>
+            <input v-model="selectedEnemyLevel" type="number" mr-2 />
+            <button type="button" @click="startCombat" mr-2>Battle</button>
             <button type="button" @click="clearActionInterval">Stop battling</button>
         </div>
-        <div class="w-100">
+        <div w-full>
             <ActiveFight />
         </div>
-        <div class="flex flex-col align-center" v-if="latestCombatResult">
-            <div v-if="latestCombatResult.win" class="align-center flex flex-col">
-                <span class="text-success text-bold">Success</span>
+        <div v-if="latestCombatResult" flex flex-col items-center>
+            <div v-if="latestCombatResult.win" flex flex-col items-center>
+                <span text-green-700 font-semibold>Success</span>
                 <br />
                 <span>
                     You gained {{ parseBigNumbers(latestCombatResult.exp, 0) }} experience and looted
                     {{ parseBigNumbers(latestCombatResult.gold, 0) }} gold.
                 </span>
             </div>
-            <span v-else class="text-danger text-bold">Defeat</span>
+            <span v-else text-red-600 font-semibold>Defeat</span>
             <div>
-                <table class="w-100 results-table">
-                    <tr>
-                        <td>Rounds</td>
-                        <td>{{ latestCombatResult.rounds }}</td>
-                    </tr>
-                    <tr>
-                        <td>Hits</td>
-                        <td>{{ latestCombatResult.hits }}</td>
-                    </tr>
-                    <tr>
-                        <td>Misses</td>
-                        <td>{{ latestCombatResult.misses }}</td>
-                    </tr>
-                    <tr>
-                        <td>Defends</td>
-                        <td>{{ latestCombatResult.defends }}</td>
-                    </tr>
+                <table w-full p-2 text-center class="results-table">
+                    <tbody>
+                        <tr>
+                            <td>Rounds</td>
+                            <td>{{ latestCombatResult.rounds }}</td>
+                        </tr>
+                        <tr>
+                            <td>Hits</td>
+                            <td>{{ latestCombatResult.hits }}</td>
+                        </tr>
+                        <tr>
+                            <td>Misses</td>
+                            <td>{{ latestCombatResult.misses }}</td>
+                        </tr>
+                        <tr>
+                            <td>Defends</td>
+                            <td>{{ latestCombatResult.defends }}</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -51,8 +53,6 @@ import {clearActionInterval, latestCombatResult} from 'service/activeActionsServ
 
 <style lang="scss" scoped>
 .results-table {
-    padding: 0.5rem;
-    text-align: center;
     tr td {
         min-width: 8rem;
     }

@@ -8,7 +8,7 @@
                     <th>Total</th>
                 </tr>
             </thead>
-            <tbody class="text-align-right">
+            <tbody text-align-right>
                 <tr v-for="row in tableRows">
                     <td>{{ row.label }}</td>
                     <td>{{ parseBigNumbers(user[row.variable]) }}</td>

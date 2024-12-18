@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div class="flex gap-2">
+        <div flex gap-2>
         <button @click="activePlayground = 'combat'">Combat</button>
         <button @click="activePlayground = 'gathering'">Gathering</button>
-        <button @click="runSimulation(activePlayground)" class="ml-auto mr-auto">Run simulation</button>
-        <button class="ml-auto">Reset</button>
+        <button @click="runSimulation(activePlayground)" ml-auto mr-auto>Run simulation</button>
+        <button ml-auto>Reset</button>
     </div>
-        <div class="flex flex-row gap-4">
-            <div class="w-50 combat-settings">
+        <div flex flex-row gap-4>
+            <div w-50 class="combat-settings">
                 <h3>Settings</h3>
                 <CombatSettings v-if="activePlayground === 'combat'" />
                 <GatheringSettings v-if="activePlayground === 'gathering'" />
             </div>
-            <div class="w-50">
+            <div w-50>
                 <h3>Results</h3>
                 <CombatResults v-if="activePlayground === 'combat'" />
                 <GatheringResults v-if="activePlayground === 'gathering'" />
