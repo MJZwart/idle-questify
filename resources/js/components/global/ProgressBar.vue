@@ -30,7 +30,7 @@ const valueInPercentage = computed(() => ((100 * props.value) / props.max).toFix
     display: flex;
     height: 1.5rem;
     overflow: hidden;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.795);
     border-radius: 0.5rem;
     position: relative;
 

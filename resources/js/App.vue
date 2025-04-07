@@ -1,12 +1,13 @@
 <template>
-    <div flex flex-col w-full gap-3>
-        <Tabs border border-solid border-black rounded-lg items-center />
-        <div border border-solid border-black rounded-lg p-4 items-center>
+    <div flex flex-col w-full bg-body text-body-text gap-3>
+        <Tabs panel />
+        <!-- <div border border-solid border-black rounded-lg p-4 items-center>
             <ActiveInfo />
-        </div>
-        <div flex flex-row gap-3>
-            <CharacterSheet border border-solid border-black rounded-lg class="character-sheet" />
-            <router-view border border-solid border-black rounded-lg w-full p-4 />
+        </div> -->
+        <div flex flex-row gap-3> 
+            <!-- Game panel -->
+            <CharacterSheet class="character-sheet" panel />
+            <router-view w-full p-6 flex-grow-1 panel />
         </div>
     </div>
     <ToastWrapper />

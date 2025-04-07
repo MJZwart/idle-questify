@@ -1,23 +1,21 @@
 <template>
-    <div>
-        <table v-if="isCombatActive && latestCombatResult && selectedEnemy" class="active-fight" w-full>
-            <tbody>
-                <tr>
-                    <td>You</td>
-                    <td>{{ latestCombatResult.enemy.name }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <ProgressBar :max="calculateHitPoints" :value="parseHealth(latestCombatResult.userHealth)" />
-                    </td>
-                    <td>
-                        <ProgressBar :max="latestCombatResult.enemyMaxHealth" :value="parseHealth(latestCombatResult.enemyHealth)" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div v-else>Choose an enemy to start combat</div>
-    </div>
+    <table v-if="isCombatActive && latestCombatResult && selectedEnemy" class="active-fight" w-full>
+        <tbody>
+            <tr>
+                <td>You</td>
+                <td>{{ latestCombatResult.enemy.name }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <ProgressBar :max="calculateHitPoints" :value="parseHealth(latestCombatResult.userHealth)" />
+                </td>
+                <td>
+                    <ProgressBar :max="latestCombatResult.enemyMaxHealth" :value="parseHealth(latestCombatResult.enemyHealth)" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div v-else>Choose an enemy to start combat</div>
 </template>
 
 <script setup lang="ts">
